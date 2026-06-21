@@ -25,11 +25,15 @@ unsupervised-learning-lab/
 │   ├── 03_anomaly_detection_sensor_events.ipynb
 │   ├── 04_unsupervised_nlp_topic_modeling.ipynb
 │   ├── 05_recommender_embeddings_matrix_factorization.ipynb
-│   └── 06_model_selection_stability_explainability.ipynb
+│   ├── 06_model_selection_stability_explainability.ipynb
+│   ├── 07_consensus_clustering.ipynb
+│   └── 08_streaming_clustering_drift.ipynb
 ├── src/unsup_lab/
 │   ├── data.py            # synthetic data generators
 │   ├── evaluation.py      # internal clustering metrics
 │   ├── stability.py       # model selection & stability analysis
+│   ├── consensus.py       # ensemble / consensus clustering
+│   ├── streaming.py       # streaming clustering & drift monitoring
 │   ├── recommenders.py    # matrix factorization helpers
 │   ├── service.py         # reusable clustering/anomaly/topic pipelines
 │   ├── artifacts.py       # model persistence with metadata

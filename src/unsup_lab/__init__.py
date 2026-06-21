@@ -1,5 +1,10 @@
 """Reusable utilities for the unsupervised learning lab."""
 
+from unsup_lab.consensus import (
+    ConsensusResult,
+    build_coassociation_matrix,
+    consensus_clustering,
+)
 from unsup_lab.data import (
     make_customer_segmentation_data,
     make_document_corpus,
@@ -28,23 +33,36 @@ from unsup_lab.stability import (
     scaling_sensitivity,
     stability_report,
 )
+from unsup_lab.streaming import (
+    detect_drift_points,
+    iter_batches,
+    monitor_streaming_clusters,
+    population_stability_index,
+)
 
 __all__ = [
     "ClusteringMetrics",
+    "ConsensusResult",
     "MatrixFactorization",
     "StabilitySummary",
     "bootstrap_cluster_stability",
+    "build_coassociation_matrix",
     "build_sparse_interactions",
+    "consensus_clustering",
+    "detect_drift_points",
     "discover_item_groups",
     "evaluate_clustering",
     "evaluate_k_range",
     "factorize_interactions",
+    "iter_batches",
     "make_customer_segmentation_data",
     "make_document_corpus",
     "make_sensor_anomaly_data",
     "make_user_item_interactions",
+    "monitor_streaming_clusters",
     "outlier_sensitivity",
     "pairwise_adjusted_mutual_information",
+    "population_stability_index",
     "recommend_for_user",
     "repeated_run_labels",
     "scaling_sensitivity",

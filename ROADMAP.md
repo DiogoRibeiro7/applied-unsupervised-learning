@@ -116,7 +116,7 @@ This roadmap is designed to turn the repository from a notebook portfolio into a
   - feature scaling
   - outlier contamination
   - dimensionality reduction method
-- [ ] Add consensus clustering.
+- [x] Add consensus clustering.
 - [ ] Add uncertainty estimates for soft clustering.
 - [ ] Add cluster transition analysis under data drift.
 - [ ] Add explainability using feature distributions, centroids, SHAP-style surrogate models, and local examples.
@@ -162,7 +162,7 @@ This roadmap is designed to turn the repository from a notebook portfolio into a
   - community detection
   - node embeddings
   - graph anomaly detection
-- [ ] Add streaming clustering:
+- [x] Add streaming clustering:
   - mini-batch KMeans
   - online centroid updates
   - drift-aware cluster monitoring
