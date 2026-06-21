@@ -129,6 +129,15 @@ docker run -p 8000:8000 unsup-lab
 
 This project is useful for Senior Data Scientist, Machine Learning Scientist, Applied Scientist, and AI Engineer roles where unsupervised learning appears in customer segmentation, anomaly detection, product analytics, document mining, recommender systems, sensor analytics, fraud discovery, healthcare operations, or exploratory representation learning.
 
+For reviewers and hiring managers:
+
+- [`docs/portfolio_summary.md`](docs/portfolio_summary.md) - one-page overview with figures.
+- [`docs/notebook_briefs.md`](docs/notebook_briefs.md) - a brief per notebook.
+- [`docs/interview_talking_points.md`](docs/interview_talking_points.md) - discussion prompts.
+- [`docs/cv_bullets.md`](docs/cv_bullets.md) and [`docs/linkedin_post.md`](docs/linkedin_post.md).
+
+Key figures live in [`outputs/figures/`](outputs/figures/) (regenerate with `python scripts/export_figures.py`).
+
 ## Recommended extensions
 
 See [`ROADMAP.md`](ROADMAP.md) for the full ambitious roadmap and [`PROMPTS.md`](PROMPTS.md) for development prompts.
