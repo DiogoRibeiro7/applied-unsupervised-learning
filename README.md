@@ -27,8 +27,14 @@ unsupervised-learning-lab/
 │   ├── 05_recommender_embeddings_matrix_factorization.ipynb
 │   └── 06_model_selection_stability_explainability.ipynb
 ├── src/unsup_lab/
-│   ├── data.py
-│   ├── evaluation.py
+│   ├── data.py            # synthetic data generators
+│   ├── evaluation.py      # internal clustering metrics
+│   ├── stability.py       # model selection & stability analysis
+│   ├── recommenders.py    # matrix factorization helpers
+│   ├── service.py         # reusable clustering/anomaly/topic pipelines
+│   ├── artifacts.py       # model persistence with metadata
+│   ├── cli.py             # `unsup-lab` command line interface
+│   ├── api.py             # FastAPI scoring service
 │   ├── plotting.py
 │   ├── preprocessing.py
 │   └── reporting.py
@@ -61,16 +67,57 @@ poetry run python -m ipykernel install --user --name unsup-lab
 poetry run jupyter lab
 ```
 
-Run tests:
+Run the quality gate (mirrors CI):
 
 ```bash
-poetry run pytest
+poetry run ruff check .      # lint
+poetry run mypy src          # type check
+poetry run pytest            # unit tests
 ```
 
-Execute notebooks:
+Execute notebooks as a reproducibility smoke test:
 
 ```bash
-poetry run python scripts/run_all_notebooks.py
+poetry run python scripts/run_all_notebooks.py                       # all notebooks
+poetry run python scripts/run_all_notebooks.py --only 00_project_overview.ipynb
+```
+
+Continuous integration runs ruff, mypy, pytest, and a single-notebook smoke
+execution on every push and pull request (see `.github/workflows/ci.yml`).
+
+## Production layer
+
+The notebooks stay the presentation layer; the same modelling code is also
+exposed through a thin CLI and API so the work can be operationalised.
+
+Command line interface (installed as `unsup-lab`):
+
+```bash
+poetry run unsup-lab generate-data --dataset customers --output data/customers.csv
+poetry run unsup-lab train-clustering --k 5      # saves model + JSON report under outputs/
+poetry run unsup-lab detect-anomalies            # precision@k against hidden labels
+poetry run unsup-lab build-topic-model --n-topics 4
+poetry run unsup-lab report --model outputs/models/clustering.joblib
+```
+
+Each training command saves a joblib artifact plus a JSON metadata sidecar
+(`unsup_lab.artifacts`) and writes a JSON report under `outputs/reports/`.
+
+Scoring API (FastAPI), serving the saved artifacts:
+
+```bash
+poetry install --with api
+poetry run uvicorn unsup_lab.api:app --reload
+# GET  /health
+# POST /cluster/assign   {"records": [{...features...}]}
+# POST /anomaly/score    {"records": [{...features...}]}
+```
+
+Container build (trains default models, then serves the API on port 8000):
+
+```bash
+docker build -t unsup-lab .
+docker run -p 8000:8000 unsup-lab
 ```
 
 ## Portfolio positioning

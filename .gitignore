@@ -8,5 +8,6 @@ __pycache__/
 .ipynb_checkpoints/
 outputs/figures/*.png
 outputs/reports/*.json
+outputs/models/
 data/*.csv
 data/*.parquet

@@ -1,0 +1,23 @@
+# Minimal image for the unsupervised-learning-lab API and CLI.
+FROM python:3.12-slim
+
+ENV PYTHONUNBUFFERED=1 \
+    PIP_NO_CACHE_DIR=1 \
+    POETRY_VERSION=2.1.3 \
+    POETRY_VIRTUALENVS_CREATE=false
+
+WORKDIR /app
+
+RUN pip install "poetry==${POETRY_VERSION}"
+
+# Install dependencies first to leverage Docker layer caching.
+COPY pyproject.toml README.md ./
+COPY src ./src
+RUN poetry install --only main --with api --no-interaction
+
+# Train default models so the API has something to serve out of the box.
+RUN unsup-lab train-clustering && unsup-lab detect-anomalies
+
+EXPOSE 8000
+
+CMD ["uvicorn", "unsup_lab.api:app", "--host", "0.0.0.0", "--port", "8000"]

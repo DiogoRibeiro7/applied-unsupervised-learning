@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from collections.abc import Callable
 from dataclasses import dataclass
 
 import numpy as np
@@ -71,7 +72,7 @@ def evaluate_clustering(data: ArrayLike, labels: ArrayLike) -> ClusteringMetrics
 
 def evaluate_k_range(
     data: ArrayLike,
-    estimator_factory: callable,
+    estimator_factory: Callable[[int], ClusterMixin],
     k_values: list[int],
 ) -> pd.DataFrame:
     """Evaluate a clustering estimator across a range of cluster counts.
