@@ -35,6 +35,7 @@ unsupervised-learning-lab/
 │   ├── consensus.py       # ensemble / consensus clustering
 │   ├── streaming.py       # streaming clustering & drift monitoring
 │   ├── recommenders.py    # matrix factorization helpers
+│   ├── nlp.py             # topic-model cleaning, labels & diagnostics
 │   ├── service.py         # reusable clustering/anomaly/topic pipelines
 │   ├── artifacts.py       # model persistence with metadata
 │   ├── cli.py             # `unsup-lab` command line interface

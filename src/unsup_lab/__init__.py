@@ -16,6 +16,14 @@ from unsup_lab.evaluation import (
     evaluate_clustering,
     evaluate_k_range,
 )
+from unsup_lab.nlp import (
+    assign_documents,
+    clean_text,
+    label_topics,
+    topic_diversity,
+    topic_term_table,
+    umass_topic_coherence,
+)
 from unsup_lab.recommenders import (
     MatrixFactorization,
     build_sparse_interactions,
@@ -45,6 +53,7 @@ __all__ = [
     "ConsensusResult",
     "MatrixFactorization",
     "StabilitySummary",
+    "assign_documents",
     "bootstrap_cluster_stability",
     "build_coassociation_matrix",
     "build_sparse_interactions",
@@ -55,6 +64,7 @@ __all__ = [
     "evaluate_k_range",
     "factorize_interactions",
     "iter_batches",
+    "label_topics",
     "make_customer_segmentation_data",
     "make_document_corpus",
     "make_sensor_anomaly_data",
@@ -68,4 +78,8 @@ __all__ = [
     "scaling_sensitivity",
     "similar_items",
     "stability_report",
+    "topic_diversity",
+    "topic_term_table",
+    "umass_topic_coherence",
+    "clean_text",
 ]

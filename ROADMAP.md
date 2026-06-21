@@ -90,8 +90,8 @@ This roadmap is designed to turn the repository from a notebook portfolio into a
 
 - [ ] Add unsupervised topic modelling with TF-IDF + NMF.
 - [ ] Add Latent Semantic Analysis.
-- [ ] Add topic coherence approximation.
-- [ ] Add automatic topic labels using top terms.
+- [x] Add topic coherence approximation.
+- [x] Add automatic topic labels using top terms.
 - [ ] Add optional BERTopic-style extension with embeddings.
 
 ### Case Study 4 — Recommender Embeddings
