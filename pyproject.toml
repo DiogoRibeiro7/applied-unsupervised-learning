@@ -1,0 +1,44 @@
+[tool.poetry]
+name = "unsupervised-learning-lab"
+version = "0.1.0"
+description = "Notebook-first portfolio repository for applied unsupervised learning."
+authors = ["Diogo Ribeiro <hansolo.dj@gmail.com>"]
+readme = "README.md"
+packages = [{ include = "unsup_lab", from = "src" }]
+
+[tool.poetry.dependencies]
+python = ">=3.10,<3.13"
+numpy = "^1.26.0"
+pandas = "^2.2.0"
+scipy = "^1.12.0"
+scikit-learn = "^1.5.0"
+matplotlib = "^3.8.0"
+jupyterlab = "^4.2.0"
+ipykernel = "^6.29.0"
+nbclient = "^0.10.0"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.2.0"
+ruff = "^0.5.0"
+mypy = "^1.10.0"
+pandas-stubs = "^2.2.0.240603"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM"]
+
+[tool.mypy]
+python_version = "3.10"
+warn_unused_configs = true
+disallow_untyped_defs = true
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
