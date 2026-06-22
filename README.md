@@ -27,13 +27,15 @@ unsupervised-learning-lab/
 │   ├── 05_recommender_embeddings_matrix_factorization.ipynb
 │   ├── 06_model_selection_stability_explainability.ipynb
 │   ├── 07_consensus_clustering.ipynb
-│   └── 08_streaming_clustering_drift.ipynb
+│   ├── 08_streaming_clustering_drift.ipynb
+│   └── 09_bayesian_nonparametric_mixtures.ipynb
 ├── src/unsup_lab/
 │   ├── data.py            # synthetic data generators
 │   ├── evaluation.py      # internal clustering metrics
 │   ├── stability.py       # model selection & stability analysis
 │   ├── consensus.py       # ensemble / consensus clustering
 │   ├── streaming.py       # streaming clustering & drift monitoring
+│   ├── bayesian.py        # Dirichlet-process nonparametric mixtures
 │   ├── recommenders.py    # matrix factorization helpers
 │   ├── nlp.py             # topic-model cleaning, labels & diagnostics
 │   ├── service.py         # reusable clustering/anomaly/topic pipelines

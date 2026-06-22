@@ -153,3 +153,22 @@ close to the full-batch solution.
 
 **Judgement.** A fixed cluster count cannot represent a genuinely new regime;
 the monitor signals when to re-fit rather than silently degrading.
+
+---
+
+## 09 - Bayesian Nonparametric Mixtures
+
+**Question.** Can the model infer the number of clusters instead of us choosing
+it?
+
+**Approach.** A Dirichlet-process Gaussian mixture with a generous component
+upper bound; the variational prior prunes unused components toward zero weight.
+Report effective components, soft-assignment uncertainty, and prior sensitivity.
+Compare against a manual silhouette sweep for k.
+
+**Result.** Recovers the five latent segments from a cap of fifteen without a
+manual search, and flags boundary customers via assignment entropy.
+
+**Judgement.** It trades the choice of k for the choice of an upper bound, a
+prior and a Gaussian assumption - fewer knobs, not none, and non-elliptical
+clusters inflate the count.

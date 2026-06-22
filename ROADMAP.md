@@ -166,7 +166,7 @@ This roadmap is designed to turn the repository from a notebook portfolio into a
   - mini-batch KMeans
   - online centroid updates
   - drift-aware cluster monitoring
-- [ ] Add probabilistic modelling:
+- [x] Add probabilistic modelling:
   - Bayesian Gaussian mixtures
   - Dirichlet Process Mixtures
   - Hidden Markov Models for latent states

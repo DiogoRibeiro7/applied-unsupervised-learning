@@ -1,5 +1,13 @@
 """Reusable utilities for the unsupervised learning lab."""
 
+from unsup_lab.bayesian import (
+    BayesianMixtureResult,
+    assignment_uncertainty,
+    component_weight_table,
+    dirichlet_process_clustering,
+    effective_components,
+    fit_dirichlet_process_mixture,
+)
 from unsup_lab.consensus import (
     ConsensusResult,
     build_coassociation_matrix,
@@ -49,13 +57,19 @@ from unsup_lab.streaming import (
 )
 
 __all__ = [
+    "BayesianMixtureResult",
     "ClusteringMetrics",
     "ConsensusResult",
     "MatrixFactorization",
     "StabilitySummary",
     "assign_documents",
+    "assignment_uncertainty",
     "bootstrap_cluster_stability",
     "build_coassociation_matrix",
+    "component_weight_table",
+    "dirichlet_process_clustering",
+    "effective_components",
+    "fit_dirichlet_process_mixture",
     "build_sparse_interactions",
     "consensus_clustering",
     "detect_drift_points",
