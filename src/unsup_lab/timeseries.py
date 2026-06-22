@@ -1,13 +1,14 @@
-"""Time-series clustering with Dynamic Time Warping (DTW).
+"""Time-series analysis: DTW clustering and the matrix profile.
 
-Euclidean distance compares two series point-by-point, so two signals with the
-same shape but a small phase shift look far apart. DTW instead finds the optimal
-alignment between the series before measuring distance, which makes it cluster by
-*shape* rather than by exact timing.
+Two complementary tools for time series, both pure NumPy/SciPy/scikit-learn:
 
-This module provides a banded DTW distance, a pairwise distance matrix, and an
-agglomerative clustering helper that consumes that matrix. It depends only on
-NumPy and scikit-learn.
+* **Dynamic Time Warping (DTW)** compares whole series by *shape* regardless of
+  small phase shifts, and feeds an agglomerative clustering of many series.
+* **The matrix profile** scans a single long series and, for every subsequence,
+  records the distance to its nearest neighbour elsewhere in the series. Low
+  values mark *motifs* (repeated patterns); high values mark *discords*
+  (anomalies). It needs no labels and finds shape anomalies a point-wise
+  detector misses.
 """
 
 from __future__ import annotations
@@ -15,7 +16,9 @@ from __future__ import annotations
 from collections.abc import Iterable
 
 import numpy as np
+from numpy.lib.stride_tricks import sliding_window_view
 from numpy.typing import ArrayLike, NDArray
+from scipy.spatial.distance import cdist
 from sklearn.cluster import AgglomerativeClustering
 
 
@@ -152,3 +155,140 @@ def cluster_time_series(
         linkage=linkage,
     )
     return np.asarray(model.fit_predict(distance), dtype=int)
+
+
+def matrix_profile(
+    series: ArrayLike,
+    window: int,
+    exclusion_fraction: float = 0.5,
+) -> tuple[NDArray[np.float64], NDArray[np.int_]]:
+    """Compute the matrix profile of a single series.
+
+    For each length-``window`` subsequence, the matrix profile records the
+    z-normalised Euclidean distance to its nearest non-trivial neighbour
+    elsewhere in the series, and the index of that neighbour. Z-normalisation
+    makes the comparison about shape rather than offset or amplitude.
+
+    Parameters
+    ----------
+    series:
+        A single 1D time series.
+    window:
+        Subsequence length.
+    exclusion_fraction:
+        Trivial-match exclusion zone as a fraction of ``window``: neighbours
+        within ``round(exclusion_fraction * window)`` positions of a subsequence
+        are ignored so a subsequence does not match itself.
+
+    Returns
+    -------
+    tuple
+        ``(profile, profile_index)``, each of length ``len(series) - window + 1``.
+    """
+    values = _as_1d(series, "series")
+    if window < 2:
+        raise ValueError("window must be at least 2.")
+    if window > values.size:
+        raise ValueError("window cannot exceed the series length.")
+    if not 0.0 <= exclusion_fraction < 1.0:
+        raise ValueError("exclusion_fraction must be in [0, 1).")
+
+    windows = sliding_window_view(values, window)
+    n_windows = windows.shape[0]
+    if n_windows < 2:
+        raise ValueError("series is too short for more than one subsequence.")
+
+    mean = windows.mean(axis=1, keepdims=True)
+    std = windows.std(axis=1, keepdims=True)
+    std[std == 0] = 1.0
+    normalised = (windows - mean) / std
+
+    distances = cdist(normalised, normalised)
+    exclusion = int(round(exclusion_fraction * window))
+    for i in range(n_windows):
+        low = max(0, i - exclusion)
+        high = min(n_windows, i + exclusion + 1)
+        distances[i, low:high] = np.inf
+
+    profile = distances.min(axis=1)
+    profile_index = distances.argmin(axis=1).astype(int)
+    return profile.astype(float), profile_index
+
+
+def _greedy_pick(
+    ordered_indices: NDArray[np.int_],
+    window: int,
+    k: int,
+) -> list[int]:
+    """Pick ``k`` indices in priority order, excluding near-duplicates."""
+    picked: list[int] = []
+    for index in ordered_indices.tolist():
+        if all(abs(index - chosen) >= window for chosen in picked):
+            picked.append(int(index))
+        if len(picked) == k:
+            break
+    return picked
+
+
+def top_discords(
+    profile: ArrayLike,
+    window: int,
+    k: int = 1,
+) -> list[int]:
+    """Return the start indices of the top ``k`` discords (anomalies).
+
+    Discords are the subsequences with the *highest* matrix-profile values - the
+    ones least similar to anything else in the series.
+
+    Parameters
+    ----------
+    profile:
+        A matrix profile from :func:`matrix_profile`.
+    window:
+        Subsequence length, used as the exclusion gap between picks.
+    k:
+        Number of discords to return.
+
+    Returns
+    -------
+    list of int
+        Discord start indices, most anomalous first.
+    """
+    values = _as_1d(profile, "profile")
+    if k < 1:
+        raise ValueError("k must be a positive integer.")
+    finite = np.where(np.isfinite(values), values, -np.inf)
+    order = np.argsort(finite)[::-1].astype(int)
+    return _greedy_pick(order, window, k)
+
+
+def top_motifs(
+    profile: ArrayLike,
+    window: int,
+    k: int = 1,
+) -> list[int]:
+    """Return the start indices of the top ``k`` motifs (repeated patterns).
+
+    Motifs are the subsequences with the *lowest* matrix-profile values - the
+    ones with a very close match elsewhere in the series.
+
+    Parameters
+    ----------
+    profile:
+        A matrix profile from :func:`matrix_profile`.
+    window:
+        Subsequence length, used as the exclusion gap between picks.
+    k:
+        Number of motifs to return.
+
+    Returns
+    -------
+    list of int
+        Motif start indices, strongest motif first.
+    """
+    values = _as_1d(profile, "profile")
+    if k < 1:
+        raise ValueError("k must be a positive integer.")
+    finite = np.where(np.isfinite(values), values, np.inf)
+    order = np.argsort(finite).astype(int)
+    return _greedy_pick(order, window, k)

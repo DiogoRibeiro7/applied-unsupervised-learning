@@ -68,6 +68,9 @@ from unsup_lab.timeseries import (
     cluster_time_series,
     dtw_distance,
     dtw_distance_matrix,
+    matrix_profile,
+    top_discords,
+    top_motifs,
 )
 from unsup_lab.tracking import RunRecord, best_run, load_runs, log_run
 
@@ -114,6 +117,7 @@ __all__ = [
     "make_document_corpus",
     "make_sensor_anomaly_data",
     "make_user_item_interactions",
+    "matrix_profile",
     "modularity",
     "monitor_streaming_clusters",
     "outlier_sensitivity",
@@ -124,6 +128,8 @@ __all__ = [
     "scaling_sensitivity",
     "similar_items",
     "stability_report",
+    "top_discords",
+    "top_motifs",
     "topic_diversity",
     "topic_term_table",
     "umass_topic_coherence",

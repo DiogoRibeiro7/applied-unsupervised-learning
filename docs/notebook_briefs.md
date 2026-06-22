@@ -211,3 +211,22 @@ graph); on a weak graph the spectral method clearly beats the naive baseline
 **Judgement.** Modularity has a resolution limit and can look high on random
 graphs, so it needs a null-model sanity check; spectral methods do not scale to
 very large graphs without sparse solvers or Louvain/Leiden.
+
+---
+
+## 12 - Matrix Profile: Motifs and Discords
+
+**Question.** In one long unlabelled series, what patterns repeat and what is
+anomalous?
+
+**Approach.** The matrix profile records, for every subsequence, the
+z-normalised distance to its nearest neighbour elsewhere: low values are motifs,
+high values are discords. Compare against a point-wise z-score baseline on a
+shape anomaly with normal magnitude.
+
+**Result.** Finds the motif and the discord in a single pass; the matrix profile
+spikes ~16x at a flat break that the z-score (max |z| ~0.2) completely misses.
+
+**Judgement.** It assumes a repetitive signal and a window matched to the
+pattern scale; brute force is O(n^2 w), so production needs the FFT-based
+MASS/STOMP algorithms.

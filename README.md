@@ -31,6 +31,7 @@ unsupervised-learning-lab/
 │   ├── 09_bayesian_nonparametric_mixtures.ipynb
 │   ├── 10_time_series_dtw_clustering.ipynb
 │   ├── 11_graph_community_detection.ipynb
+│   ├── 12_matrix_profile_motifs_discords.ipynb
 │   └── 99_lessons_learned.ipynb
 ├── src/unsup_lab/
 │   ├── data.py            # synthetic data generators
@@ -39,7 +40,7 @@ unsupervised-learning-lab/
 │   ├── consensus.py       # ensemble / consensus clustering
 │   ├── streaming.py       # streaming clustering & drift monitoring
 │   ├── bayesian.py        # Dirichlet-process nonparametric mixtures
-│   ├── timeseries.py      # DTW distance & time-series clustering
+│   ├── timeseries.py      # DTW clustering + matrix profile (motifs/discords)
 │   ├── graphs.py          # graph community detection (modularity, spectral)
 │   ├── config.py          # typed YAML run configuration
 │   ├── tracking.py        # dependency-free JSONL experiment tracker
