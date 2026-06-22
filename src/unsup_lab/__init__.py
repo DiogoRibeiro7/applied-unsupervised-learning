@@ -55,6 +55,11 @@ from unsup_lab.streaming import (
     monitor_streaming_clusters,
     population_stability_index,
 )
+from unsup_lab.timeseries import (
+    cluster_time_series,
+    dtw_distance,
+    dtw_distance_matrix,
+)
 
 __all__ = [
     "BayesianMixtureResult",
@@ -71,9 +76,12 @@ __all__ = [
     "effective_components",
     "fit_dirichlet_process_mixture",
     "build_sparse_interactions",
+    "cluster_time_series",
     "consensus_clustering",
     "detect_drift_points",
     "discover_item_groups",
+    "dtw_distance",
+    "dtw_distance_matrix",
     "evaluate_clustering",
     "evaluate_k_range",
     "factorize_interactions",

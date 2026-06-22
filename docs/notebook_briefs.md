@@ -172,3 +172,21 @@ manual search, and flags boundary customers via assignment entropy.
 **Judgement.** It trades the choice of k for the choice of an upper bound, a
 prior and a Gaussian assumption - fewer knobs, not none, and non-elliptical
 clusters inflate the count.
+
+---
+
+## 10 - Time-Series Clustering with Dynamic Time Warping
+
+**Question.** How do we group time series by shape when they are slightly out of
+phase?
+
+**Approach.** A banded DTW distance aligns series before measuring distance;
+the pairwise distance matrix feeds agglomerative clustering. Compare against
+point-by-point Euclidean distance on three phase-shifted shape families.
+
+**Result.** DTW recovers the shape families almost perfectly (ARI ~1.0) where
+Euclidean distance is misled by the shifts (ARI ~0.6).
+
+**Judgement.** The alignment is the point - but DTW is O(L^2) per pair, not a
+true metric, and amplitude-sensitive, so z-normalisation and banding are part of
+using it well.
