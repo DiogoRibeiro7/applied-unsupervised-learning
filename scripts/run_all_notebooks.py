@@ -20,8 +20,17 @@ import nbformat
 from nbclient import NotebookClient
 
 
-def execute_notebook(notebook_path: Path, root: Path, timeout: int = 300) -> None:
-    """Execute a single notebook in place from the repository root."""
+def execute_notebook(
+    notebook_path: Path,
+    root: Path,
+    timeout: int = 300,
+    save: bool = False,
+) -> None:
+    """Execute a single notebook from the repository root.
+
+    When ``save`` is true the executed notebook (including cell outputs) is
+    written back to disk so the rendered outputs are stored in version control.
+    """
     print(f"Executing {notebook_path.name}")
     with notebook_path.open(encoding="utf-8") as file:
         notebook = nbformat.read(file, as_version=4)
@@ -34,6 +43,10 @@ def execute_notebook(notebook_path: Path, root: Path, timeout: int = 300) -> Non
     )
     client.execute()
 
+    if save:
+        with notebook_path.open("w", encoding="utf-8") as file:
+            nbformat.write(notebook, file)
+
 
 def main() -> None:
     """Execute notebooks under the notebooks directory."""
@@ -42,6 +55,11 @@ def main() -> None:
         "--only",
         default=None,
         help="Execute only the notebook with this file name.",
+    )
+    parser.add_argument(
+        "--save",
+        action="store_true",
+        help="Write executed notebooks (with outputs) back to disk.",
     )
     args = parser.parse_args()
 
@@ -55,7 +73,7 @@ def main() -> None:
             raise SystemExit(f"No notebook named {args.only!r} found in {notebook_dir}.")
 
     for notebook_path in notebooks:
-        execute_notebook(notebook_path, root)
+        execute_notebook(notebook_path, root, save=args.save)
 
 
 if __name__ == "__main__":
