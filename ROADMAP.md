@@ -133,20 +133,20 @@ This roadmap is designed to turn the repository from a notebook portfolio into a
 
 **Goal:** Show that the notebook work can become a maintainable product.
 
-- [ ] Package reusable pipelines under `src/unsup_lab`.
+- [x] Package reusable pipelines under `src/unsup_lab`.
 - [ ] Add a CLI:
   - `unsup-lab generate-data`
   - `unsup-lab train-clustering`
   - `unsup-lab detect-anomalies`
   - `unsup-lab build-topic-model`
   - `unsup-lab report`
-- [ ] Add model artifact saving with metadata.
-- [ ] Add experiment tracking with MLflow or a lightweight local JSON tracker.
-- [ ] Add configuration with YAML.
-- [ ] Add Dockerfile.
-- [ ] Add FastAPI service for cluster assignment and anomaly scoring.
-- [ ] Add batch inference script.
-- [ ] Add scheduled report generation.
+- [x] Add model artifact saving with metadata.
+- [x] Add experiment tracking with MLflow or a lightweight local JSON tracker.
+- [x] Add configuration with YAML.
+- [x] Add Dockerfile.
+- [x] Add FastAPI service for cluster assignment and anomaly scoring.
+- [x] Add batch inference script.
+- [x] Add scheduled report generation.
 
 ---
 

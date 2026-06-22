@@ -9,5 +9,7 @@ __pycache__/
 outputs/figures/*.png
 outputs/reports/*.json
 outputs/models/
+outputs/experiments/
+outputs/scheduled/
 data/*.csv
 data/*.parquet

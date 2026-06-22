@@ -24,6 +24,7 @@ from pathlib import Path
 from typing import Any
 
 import numpy as np
+import pandas as pd
 
 from unsup_lab.artifacts import load_artifact, save_artifact
 from unsup_lab.data import (
@@ -34,10 +35,12 @@ from unsup_lab.data import (
 from unsup_lab.evaluation import evaluate_clustering
 from unsup_lab.service import (
     anomaly_scores,
+    assign_clusters,
     train_anomaly_model,
     train_clustering,
     train_topic_model,
 )
+from unsup_lab.tracking import log_run
 
 _DEFAULT_MODEL_DIR = Path("outputs/models")
 _DEFAULT_REPORT_DIR = Path("outputs/reports")
@@ -48,6 +51,19 @@ def _write_json(payload: dict[str, Any], path: Path) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(payload, indent=2), encoding="utf-8")
     print(f"Wrote report to {path}")
+
+
+def _maybe_track(
+    args: argparse.Namespace,
+    name: str,
+    params: dict[str, Any],
+    metrics: dict[str, Any],
+) -> None:
+    """Log a run to the experiment tracker when ``--track-path`` is supplied."""
+    track_path = getattr(args, "track_path", None)
+    if track_path:
+        log_run(name, params=params, metrics=metrics, path=track_path)
+        print(f"Logged run to {track_path}")
 
 
 def cmd_generate_data(args: argparse.Namespace) -> None:
@@ -95,6 +111,12 @@ def cmd_train_clustering(args: argparse.Namespace) -> None:
         },
     }
     _write_json(report, Path(args.report_out))
+    _maybe_track(
+        args,
+        "clustering",
+        params={"k": args.k, "n": args.n},
+        metrics={"silhouette": metrics.silhouette, "davies_bouldin": metrics.davies_bouldin},
+    )
 
 
 def cmd_detect_anomalies(args: argparse.Namespace) -> None:
@@ -130,6 +152,12 @@ def cmd_detect_anomalies(args: argparse.Namespace) -> None:
         "top_anomaly_indices": [int(i) for i in top_k],
     }
     _write_json(report, Path(args.report_out))
+    _maybe_track(
+        args,
+        "anomaly",
+        params={"contamination": args.contamination, "top_k": args.top_k},
+        metrics={"precision_at_k": precision_at_k},
+    )
 
 
 def cmd_build_topic_model(args: argparse.Namespace) -> None:
@@ -152,12 +180,33 @@ def cmd_build_topic_model(args: argparse.Namespace) -> None:
 
     report = {"model_kind": "topic", "n_topics": args.n_topics, "topics": topics}
     _write_json(report, Path(args.report_out))
+    _maybe_track(args, "topic", params={"n_topics": args.n_topics}, metrics={})
 
 
 def cmd_report(args: argparse.Namespace) -> None:
     """Print the metadata sidecar of a saved artifact as JSON."""
     _, metadata = load_artifact(args.model)
     print(json.dumps(metadata.__dict__, indent=2))
+
+
+def cmd_batch_score(args: argparse.Namespace) -> None:
+    """Score a CSV of feature rows with a saved clustering or anomaly model."""
+    model, metadata = load_artifact(args.model)
+    frame = pd.read_csv(args.input)
+
+    if metadata.model_kind == "clustering":
+        frame["cluster"] = assign_clusters(model, frame)
+    elif metadata.model_kind == "anomaly":
+        frame["anomaly_score"] = anomaly_scores(model, frame)
+    else:
+        raise ValueError(
+            f"batch-score supports 'clustering' and 'anomaly' models, not {metadata.model_kind!r}."
+        )
+
+    output = Path(args.output)
+    output.parent.mkdir(parents=True, exist_ok=True)
+    frame.to_csv(output, index=False)
+    print(f"Scored {len(frame)} rows with the {metadata.model_kind} model -> {output}")
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -179,6 +228,7 @@ def build_parser() -> argparse.ArgumentParser:
     clust.add_argument("--k", type=int, default=5)
     clust.add_argument("--model-out", default=str(_DEFAULT_MODEL_DIR / "clustering.joblib"))
     clust.add_argument("--report-out", default=str(_DEFAULT_REPORT_DIR / "clustering.json"))
+    clust.add_argument("--track-path", default=None, help="JSONL experiment log to append to.")
     clust.set_defaults(func=cmd_train_clustering)
 
     anom = sub.add_parser("detect-anomalies", help="Train an anomaly model and score data.")
@@ -187,17 +237,25 @@ def build_parser() -> argparse.ArgumentParser:
     anom.add_argument("--top-k", type=int, default=50)
     anom.add_argument("--model-out", default=str(_DEFAULT_MODEL_DIR / "anomaly.joblib"))
     anom.add_argument("--report-out", default=str(_DEFAULT_REPORT_DIR / "anomaly.json"))
+    anom.add_argument("--track-path", default=None, help="JSONL experiment log to append to.")
     anom.set_defaults(func=cmd_detect_anomalies)
 
     topic = sub.add_parser("build-topic-model", help="Fit a topic model on the corpus.")
     topic.add_argument("--n-topics", type=int, default=4)
     topic.add_argument("--model-out", default=str(_DEFAULT_MODEL_DIR / "topic.joblib"))
     topic.add_argument("--report-out", default=str(_DEFAULT_REPORT_DIR / "topic.json"))
+    topic.add_argument("--track-path", default=None, help="JSONL experiment log to append to.")
     topic.set_defaults(func=cmd_build_topic_model)
 
     report = sub.add_parser("report", help="Print the metadata of a saved artifact.")
     report.add_argument("--model", required=True)
     report.set_defaults(func=cmd_report)
+
+    batch = sub.add_parser("batch-score", help="Score a CSV with a saved model.")
+    batch.add_argument("--model", required=True, help="Path to the saved model artifact.")
+    batch.add_argument("--input", required=True, help="Input CSV of feature rows.")
+    batch.add_argument("--output", required=True, help="Destination CSV for scored rows.")
+    batch.set_defaults(func=cmd_batch_score)
 
     return parser
 

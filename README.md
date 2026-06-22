@@ -38,6 +38,8 @@ unsupervised-learning-lab/
 │   ├── streaming.py       # streaming clustering & drift monitoring
 │   ├── bayesian.py        # Dirichlet-process nonparametric mixtures
 │   ├── timeseries.py      # DTW distance & time-series clustering
+│   ├── config.py          # typed YAML run configuration
+│   ├── tracking.py        # dependency-free JSONL experiment tracker
 │   ├── recommenders.py    # matrix factorization helpers
 │   ├── nlp.py             # topic-model cleaning, labels & diagnostics
 │   ├── service.py         # reusable clustering/anomaly/topic pipelines
@@ -107,10 +109,28 @@ poetry run unsup-lab train-clustering --k 5      # saves model + JSON report und
 poetry run unsup-lab detect-anomalies            # precision@k against hidden labels
 poetry run unsup-lab build-topic-model --n-topics 4
 poetry run unsup-lab report --model outputs/models/clustering.joblib
+poetry run unsup-lab batch-score \
+    --model outputs/models/clustering.joblib \
+    --input data/customers.csv --output outputs/scored.csv
 ```
 
 Each training command saves a joblib artifact plus a JSON metadata sidecar
 (`unsup_lab.artifacts`) and writes a JSON report under `outputs/reports/`.
+
+**Configuration, tracking and scheduling.**
+
+- `unsup_lab.config` loads typed, validated run settings from YAML (see
+  [`configs/example_clustering.yaml`](configs/example_clustering.yaml)).
+- `unsup_lab.tracking` is a dependency-free experiment log: training commands
+  append a run to a JSONL file when given `--track-path`, and `load_runs` /
+  `best_run` read it back.
+- [`scripts/scheduled_report.py`](scripts/scheduled_report.py) retrains from a
+  config and writes timestamped reports; point cron or Task Scheduler at it.
+
+```bash
+poetry run unsup-lab train-clustering --k 5 --track-path outputs/experiments/runs.jsonl
+poetry run python scripts/scheduled_report.py --config configs/example_clustering.yaml
+```
 
 Scoring API (FastAPI), serving the saved artifacts:
 

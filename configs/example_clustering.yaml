@@ -1,0 +1,6 @@
+# Example run configuration for the clustering task.
+# Load with: unsup_lab.config.load_config("configs/example_clustering.yaml")
+task: clustering
+n_samples: 2000
+n_clusters: 5
+random_state: 42
