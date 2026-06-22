@@ -29,7 +29,8 @@ unsupervised-learning-lab/
 │   ├── 07_consensus_clustering.ipynb
 │   ├── 08_streaming_clustering_drift.ipynb
 │   ├── 09_bayesian_nonparametric_mixtures.ipynb
-│   └── 10_time_series_dtw_clustering.ipynb
+│   ├── 10_time_series_dtw_clustering.ipynb
+│   └── 11_graph_community_detection.ipynb
 ├── src/unsup_lab/
 │   ├── data.py            # synthetic data generators
 │   ├── evaluation.py      # internal clustering metrics
@@ -38,6 +39,7 @@ unsupervised-learning-lab/
 │   ├── streaming.py       # streaming clustering & drift monitoring
 │   ├── bayesian.py        # Dirichlet-process nonparametric mixtures
 │   ├── timeseries.py      # DTW distance & time-series clustering
+│   ├── graphs.py          # graph community detection (modularity, spectral)
 │   ├── config.py          # typed YAML run configuration
 │   ├── tracking.py        # dependency-free JSONL experiment tracker
 │   ├── recommenders.py    # matrix factorization helpers

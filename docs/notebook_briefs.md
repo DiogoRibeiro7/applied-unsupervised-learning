@@ -190,3 +190,24 @@ Euclidean distance is misled by the shifts (ARI ~0.6).
 **Judgement.** The alignment is the point - but DTW is O(L^2) per pair, not a
 true metric, and amplitude-sensitive, so z-normalisation and banding are part of
 using it well.
+
+---
+
+## 11 - Graph Community Detection
+
+**Question.** When data is a graph, how do we find communities and decide how
+many there are?
+
+**Approach.** A stochastic block model provides planted communities. Detect them
+with spectral clustering on the adjacency, score partitions with Newman
+modularity, and choose the count by maximising it. Compare against running
+KMeans directly on the adjacency rows, on a deliberately hard (weakly
+structured) graph.
+
+**Result.** Modularity peaks at the true community count (ARI ~1.0 on a clear
+graph); on a weak graph the spectral method clearly beats the naive baseline
+(ARI ~0.6 vs ~0.2).
+
+**Judgement.** Modularity has a resolution limit and can look high on random
+graphs, so it needs a null-model sanity check; spectral methods do not scale to
+very large graphs without sparse solvers or Louvain/Leiden.
