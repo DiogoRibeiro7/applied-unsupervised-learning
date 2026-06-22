@@ -30,7 +30,8 @@ unsupervised-learning-lab/
 │   ├── 08_streaming_clustering_drift.ipynb
 │   ├── 09_bayesian_nonparametric_mixtures.ipynb
 │   ├── 10_time_series_dtw_clustering.ipynb
-│   └── 11_graph_community_detection.ipynb
+│   ├── 11_graph_community_detection.ipynb
+│   └── 99_lessons_learned.ipynb
 ├── src/unsup_lab/
 │   ├── data.py            # synthetic data generators
 │   ├── evaluation.py      # internal clustering metrics
@@ -161,6 +162,7 @@ For reviewers and hiring managers:
 - [`docs/notebook_briefs.md`](docs/notebook_briefs.md) - a brief per notebook.
 - [`docs/interview_talking_points.md`](docs/interview_talking_points.md) - discussion prompts.
 - [`docs/cv_bullets.md`](docs/cv_bullets.md) and [`docs/linkedin_post.md`](docs/linkedin_post.md).
+- [`docs/workflows.md`](docs/workflows.md) - workflow diagrams; [`docs/decision_notes.md`](docs/decision_notes.md) - modelling tradeoffs.
 
 Key figures live in [`outputs/figures/`](outputs/figures/) (regenerate with `python scripts/export_figures.py`).
 

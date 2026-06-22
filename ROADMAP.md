@@ -183,13 +183,13 @@ This roadmap is designed to turn the repository from a notebook portfolio into a
 
 **Goal:** Make the repository readable and convincing.
 
-- [ ] Add a short portfolio landing page in `docs/`.
-- [ ] Add one-page executive summaries for each case study.
-- [ ] Add diagrams for each modelling workflow.
-- [ ] Add “decision notes” explaining modelling tradeoffs.
-- [ ] Add a final notebook called `99_lessons_learned.ipynb`.
-- [ ] Add LinkedIn post draft and CV bullet points based on the repo.
-- [ ] Add screenshots of plots and reports.
+- [x] Add a short portfolio landing page in `docs/`.
+- [x] Add one-page executive summaries for each case study.
+- [x] Add diagrams for each modelling workflow.
+- [x] Add “decision notes” explaining modelling tradeoffs.
+- [x] Add a final notebook called `99_lessons_learned.ipynb`.
+- [x] Add LinkedIn post draft and CV bullet points based on the repo.
+- [x] Add screenshots of plots and reports.
 
 ## Final target
 

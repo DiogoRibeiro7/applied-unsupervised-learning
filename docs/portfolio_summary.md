@@ -61,6 +61,9 @@ regime change arrives.*
 ## Further reading
 
 - [`notebook_briefs.md`](notebook_briefs.md) - one-page brief per notebook.
+- [`workflows.md`](workflows.md) - diagrams of each modelling workflow.
+- [`decision_notes.md`](decision_notes.md) - modelling tradeoffs and why.
 - [`interview_talking_points.md`](interview_talking_points.md) - discussion prompts.
 - [`cv_bullets.md`](cv_bullets.md) - CV bullet points.
+- [`../notebooks/99_lessons_learned.ipynb`](../notebooks/99_lessons_learned.ipynb) - capstone synthesis.
 - [`../ROADMAP.md`](../ROADMAP.md) - the wider roadmap and progress.
