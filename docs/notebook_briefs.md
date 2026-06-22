@@ -230,3 +230,23 @@ spikes ~16x at a flat break that the z-score (max |z| ~0.2) completely misses.
 **Judgement.** It assumes a repetitive signal and a window matched to the
 pattern scale; brute force is O(n^2 w), so production needs the FFT-based
 MASS/STOMP algorithms.
+
+---
+
+## 13 - Graph Node Embeddings and Anomaly Detection
+
+**Question.** Can we embed graph nodes by connectivity, and flag nodes whose
+local structure is anomalous?
+
+**Approach.** Spectral (Laplacian eigenmap) embeddings for layout, plus an
+Isolation Forest over structural node features (degree, clustering coefficient,
+neighbour degree). Inject bridge nodes into a stochastic block model; compare
+precision-at-k against degree-only and random baselines.
+
+**Result.** Embeddings separate communities and place bridges between them; the
+structural detector finds bridges far above chance.
+
+**Judgement.** Honest finding - for pure high-degree bridges, degree alone is
+already a perfect detector; the structural score earns its keep on anomalies
+that are *not* simply high-degree (e.g. normal-degree nodes with cross-community
+neighbours). Match the detector to the anomaly you expect.

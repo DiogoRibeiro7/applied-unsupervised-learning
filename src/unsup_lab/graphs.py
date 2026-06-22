@@ -18,10 +18,14 @@ from __future__ import annotations
 from dataclasses import dataclass
 
 import numpy as np
+import pandas as pd
 from numpy.typing import ArrayLike, NDArray
 from scipy.sparse import csr_matrix, issparse
 from sklearn.cluster import SpectralClustering
+from sklearn.ensemble import IsolationForest
+from sklearn.manifold import SpectralEmbedding
 from sklearn.neighbors import kneighbors_graph
+from sklearn.preprocessing import StandardScaler
 
 
 @dataclass(frozen=True)
@@ -230,3 +234,118 @@ def best_partition_by_modularity(
             best = result
     assert best is not None  # candidate_counts is non-empty
     return best
+
+
+def spectral_node_embedding(
+    adjacency: csr_matrix,
+    n_components: int = 2,
+    random_state: int = 0,
+) -> NDArray[np.float64]:
+    """Embed graph nodes into a low-dimensional space (Laplacian eigenmaps).
+
+    Nodes that are well connected end up close together, so the embedding gives
+    a continuous view of graph structure suitable for plotting or downstream
+    distance-based methods.
+
+    Parameters
+    ----------
+    adjacency:
+        Symmetric adjacency matrix used as a precomputed affinity.
+    n_components:
+        Embedding dimension.
+    random_state:
+        Seed for the eigensolver.
+
+    Returns
+    -------
+    numpy.ndarray
+        A ``(n_nodes, n_components)`` array of node coordinates.
+    """
+    if not issparse(adjacency):
+        raise TypeError("adjacency must be a scipy sparse matrix.")
+    matrix = csr_matrix(adjacency).astype(float)
+    if not 1 <= n_components < matrix.shape[0]:
+        raise ValueError("n_components must be between 1 and the number of nodes.")
+
+    embedder = SpectralEmbedding(
+        n_components=n_components,
+        affinity="precomputed",
+        random_state=random_state,
+    )
+    return np.asarray(embedder.fit_transform(matrix.toarray()), dtype=float)
+
+
+def node_structural_features(adjacency: csr_matrix) -> pd.DataFrame:
+    """Compute interpretable structural features for each node.
+
+    Parameters
+    ----------
+    adjacency:
+        Symmetric (binary) adjacency matrix.
+
+    Returns
+    -------
+    pandas.DataFrame
+        Columns ``degree`` (number of neighbours), ``clustering_coefficient``
+        (how interconnected a node's neighbours are) and ``avg_neighbor_degree``
+        (mean degree of a node's neighbours).
+    """
+    if not issparse(adjacency):
+        raise TypeError("adjacency must be a scipy sparse matrix.")
+    matrix = csr_matrix(adjacency).astype(float)
+    matrix.setdiag(0)
+    matrix.eliminate_zeros()
+
+    degree = np.asarray(matrix.sum(axis=1)).ravel()
+    # (A^3)_ii = 2 * (triangles through node i); clustering = triangles / possible.
+    triangles_x2 = (matrix @ matrix @ matrix).diagonal()
+    possible = degree * (degree - 1)
+    with np.errstate(divide="ignore", invalid="ignore"):
+        clustering = np.where(possible > 0, triangles_x2 / possible, 0.0)
+        avg_neighbor_degree = np.where(
+            degree > 0, np.asarray(matrix @ degree).ravel() / degree, 0.0
+        )
+
+    return pd.DataFrame(
+        {
+            "degree": degree,
+            "clustering_coefficient": clustering,
+            "avg_neighbor_degree": avg_neighbor_degree,
+        }
+    )
+
+
+def graph_anomaly_scores(
+    adjacency: csr_matrix,
+    contamination: float = 0.05,
+    random_state: int = 0,
+) -> NDArray[np.float64]:
+    """Score each node for structural anomalousness.
+
+    Nodes are described by their structural features and scored with an
+    Isolation Forest; a node whose connectivity pattern is unlike the rest of
+    the graph (for example a bridge linking many communities) receives a high
+    score. Higher means more anomalous.
+
+    Parameters
+    ----------
+    adjacency:
+        Symmetric adjacency matrix.
+    contamination:
+        Expected fraction of anomalous nodes (Isolation Forest parameter).
+    random_state:
+        Seed for the forest.
+
+    Returns
+    -------
+    numpy.ndarray
+        One anomaly score per node (higher = more anomalous).
+    """
+    if not 0.0 < contamination < 0.5:
+        raise ValueError("contamination must be between 0 and 0.5.")
+
+    features = node_structural_features(adjacency).to_numpy()
+    scaled = StandardScaler().fit_transform(features)
+    forest = IsolationForest(contamination=contamination, random_state=random_state)
+    forest.fit(scaled)
+    return np.asarray(-forest.score_samples(scaled), dtype=float)
