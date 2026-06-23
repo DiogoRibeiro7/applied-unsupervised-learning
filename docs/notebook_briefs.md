@@ -250,3 +250,23 @@ structural detector finds bridges far above chance.
 already a perfect detector; the structural score earns its keep on anomalies
 that are *not* simply high-degree (e.g. normal-degree nodes with cross-community
 neighbours). Match the detector to the anomaly you expect.
+
+---
+
+## 14 - Unsupervised Shapelets
+
+**Question.** When only a short, shifting subsequence carries the signal, how do
+we find it and group series by it - without labels?
+
+**Approach.** A u-shapelet is a subsequence whose distance to every series
+splits the dataset with maximal gap. Scan candidates, score the gap, keep the
+best. Compare against whole-series KMeans on data where a hump appears at a
+random position.
+
+**Result.** The u-shapelet separates the hidden classes perfectly (ARI ~1.0)
+and is interpretable (you can plot the shape); whole-series KMeans is defeated by
+the varying position (ARI ~0.2).
+
+**Judgement.** Brute-force search is O(candidates x series x window) and the
+shapelet length is a real choice; z-normalisation means amplitude-only
+differences are invisible.

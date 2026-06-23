@@ -9,11 +9,17 @@ Two complementary tools for time series, both pure NumPy/SciPy/scikit-learn:
   values mark *motifs* (repeated patterns); high values mark *discords*
   (anomalies). It needs no labels and finds shape anomalies a point-wise
   detector misses.
+* **Unsupervised shapelets (u-shapelets)** are short subsequences whose distance
+  to every series in a dataset splits it into a "contains this local pattern"
+  group and a "does not" group with a large gap. They discover discriminative
+  local shapes with no labels, which is useful when only part of each series
+  carries the signal.
 """
 
 from __future__ import annotations
 
 from collections.abc import Iterable
+from dataclasses import dataclass
 
 import numpy as np
 from numpy.lib.stride_tricks import sliding_window_view
@@ -292,3 +298,189 @@ def top_motifs(
     finite = np.where(np.isfinite(values), values, np.inf)
     order = np.argsort(finite).astype(int)
     return _greedy_pick(order, window, k)
+
+
+@dataclass(frozen=True)
+class Shapelet:
+    """An unsupervised shapelet and how well it splits the dataset.
+
+    Attributes
+    ----------
+    series_index:
+        Index of the series the shapelet was extracted from.
+    start:
+        Start position of the shapelet within that series.
+    values:
+        The shapelet subsequence itself.
+    gap:
+        The separation gap score; higher means a cleaner split.
+    threshold:
+        The distance threshold separating the "near" and "far" groups.
+    distances:
+        The shapelet's distance to every series in the dataset.
+    """
+
+    series_index: int
+    start: int
+    values: NDArray[np.float64]
+    gap: float
+    threshold: float
+    distances: NDArray[np.float64]
+
+
+def _znorm(values: NDArray[np.float64]) -> NDArray[np.float64]:
+    """Z-normalise a 1D array (zero mean, unit std; std 0 -> unchanged)."""
+    std = values.std()
+    return (values - values.mean()) / (std if std > 0 else 1.0)
+
+
+def _znorm_rows(matrix: NDArray[np.float64]) -> NDArray[np.float64]:
+    """Z-normalise each row of a 2D array."""
+    mean = matrix.mean(axis=1, keepdims=True)
+    std = matrix.std(axis=1, keepdims=True)
+    std[std == 0] = 1.0
+    return (matrix - mean) / std
+
+
+def subsequence_distance(shapelet: ArrayLike, series: ArrayLike) -> float:
+    """Minimum z-normalised Euclidean distance from a shapelet to a series.
+
+    The shapelet is slid along the series and the closest match is returned, so
+    the distance reflects whether the local *shape* appears anywhere in the
+    series, regardless of where.
+
+    Parameters
+    ----------
+    shapelet:
+        The query subsequence.
+    series:
+        The series to search.
+
+    Returns
+    -------
+    float
+        The smallest z-normalised Euclidean distance over all alignments.
+    """
+    query = _as_1d(shapelet, "shapelet")
+    target = _as_1d(series, "series")
+    if query.size > target.size:
+        raise ValueError("shapelet cannot be longer than the series.")
+
+    windows = _znorm_rows(sliding_window_view(target, query.size))
+    diffs = windows - _znorm(query)
+    return float(np.sqrt((diffs**2).sum(axis=1)).min())
+
+
+def shapelet_gap(distances: ArrayLike, min_fraction: float = 0.2) -> tuple[float, float]:
+    """Best separation gap of a shapelet's distance vector.
+
+    Sorting the distances, the gap score for a split is
+    ``mean(far) - std(far) - mean(near) - std(near)``. The split is required to
+    leave at least ``min_fraction`` of the series on each side, so a shapelet is
+    only rewarded for separating a *substantial* group.
+
+    Parameters
+    ----------
+    distances:
+        Distances from one shapelet to every series.
+    min_fraction:
+        Minimum fraction of series required on each side of the split.
+
+    Returns
+    -------
+    tuple
+        ``(gap, threshold)``. ``gap`` is ``-inf`` and ``threshold`` is ``nan``
+        when no valid split exists.
+    """
+    values = np.sort(np.asarray(distances, dtype=float).ravel())
+    n = values.size
+    if n < 2:
+        raise ValueError("need at least two series to score a split.")
+    if not 0.0 < min_fraction <= 0.5:
+        raise ValueError("min_fraction must be in (0, 0.5].")
+
+    min_count = max(1, int(round(min_fraction * n)))
+    best_gap = -np.inf
+    best_threshold = float("nan")
+    for i in range(min_count - 1, n - min_count):
+        near = values[: i + 1]
+        far = values[i + 1 :]
+        gap = float(far.mean() - far.std() - near.mean() - near.std())
+        if gap > best_gap:
+            best_gap = gap
+            best_threshold = float((values[i] + values[i + 1]) / 2.0)
+    return best_gap, best_threshold
+
+
+def discover_shapelets(
+    series: Iterable[ArrayLike],
+    window: int,
+    n_shapelets: int = 1,
+    stride: int = 1,
+    min_fraction: float = 0.2,
+) -> list[Shapelet]:
+    """Discover the top unsupervised shapelets in a dataset of series.
+
+    Every length-``window`` subsequence (subject to ``stride``) is a candidate;
+    each is scored by the gap it induces in its distance vector across the
+    dataset. The highest-gap, non-overlapping candidates are returned.
+
+    Parameters
+    ----------
+    series:
+        Equal- or varying-length 1D series.
+    window:
+        Shapelet length.
+    n_shapelets:
+        Number of shapelets to return.
+    stride:
+        Step between candidate start positions (larger is faster, coarser).
+    min_fraction:
+        Minimum fraction of series on each side of a shapelet's split.
+
+    Returns
+    -------
+    list of Shapelet
+        Up to ``n_shapelets`` shapelets, highest gap first.
+    """
+    sequences = [_as_1d(row, "series row") for row in series]
+    if len(sequences) < 2:
+        raise ValueError("need at least two series.")
+    if window < 2:
+        raise ValueError("window must be at least 2.")
+    if any(window > seq.size for seq in sequences):
+        raise ValueError("window cannot exceed the shortest series length.")
+    if stride < 1:
+        raise ValueError("stride must be a positive integer.")
+
+    candidates: list[Shapelet] = []
+    for series_index, sequence in enumerate(sequences):
+        for start in range(0, sequence.size - window + 1, stride):
+            shapelet = sequence[start : start + window]
+            distances = np.array([subsequence_distance(shapelet, seq) for seq in sequences])
+            gap, threshold = shapelet_gap(distances, min_fraction=min_fraction)
+            candidates.append(
+                Shapelet(
+                    series_index=series_index,
+                    start=start,
+                    values=shapelet,
+                    gap=gap,
+                    threshold=threshold,
+                    distances=distances,
+                )
+            )
+
+    candidates.sort(key=lambda item: item.gap, reverse=True)
+
+    selected: list[Shapelet] = []
+    for candidate in candidates:
+        overlaps = any(
+            candidate.series_index == chosen.series_index
+            and abs(candidate.start - chosen.start) < window
+            for chosen in selected
+        )
+        if not overlaps:
+            selected.append(candidate)
+        if len(selected) == n_shapelets:
+            break
+    return selected

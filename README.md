@@ -33,6 +33,7 @@ unsupervised-learning-lab/
 │   ├── 11_graph_community_detection.ipynb
 │   ├── 12_matrix_profile_motifs_discords.ipynb
 │   ├── 13_graph_node_embeddings_anomaly.ipynb
+│   ├── 14_unsupervised_shapelets.ipynb
 │   └── 99_lessons_learned.ipynb
 ├── src/unsup_lab/
 │   ├── data.py            # synthetic data generators
@@ -41,7 +42,7 @@ unsupervised-learning-lab/
 │   ├── consensus.py       # ensemble / consensus clustering
 │   ├── streaming.py       # streaming clustering & drift monitoring
 │   ├── bayesian.py        # Dirichlet-process nonparametric mixtures
-│   ├── timeseries.py      # DTW clustering + matrix profile (motifs/discords)
+│   ├── timeseries.py      # DTW clustering, matrix profile, u-shapelets
 │   ├── graphs.py          # graph communities, node embeddings, node anomalies
 │   ├── config.py          # typed YAML run configuration
 │   ├── tracking.py        # dependency-free JSONL experiment tracker
