@@ -273,19 +273,21 @@ differences are invisible.
 
 ---
 
-## 15 - Deep Clustering (Autoencoder and DEC)
+## 15 - Deep Clustering (Autoencoder, DEC, Contrastive)
 
 **Question.** Does representation learning help cluster non-linearly tangled,
 noisy data where PCA and KMeans struggle?
 
-**Approach.** Autoencoder embedding + KMeans, and Deep Embedded Clustering (DEC)
-which fine-tunes the embedding with a clustering objective. Compare against raw
-KMeans and PCA+KMeans. Uses the optional PyTorch extra.
+**Approach.** Three deep methods - autoencoder embedding + KMeans, Deep Embedded
+Clustering (DEC), and a contrastive (SimCLR-style) encoder - compared against
+raw KMeans and PCA+KMeans. Uses the optional PyTorch extra.
 
-**Result.** DEC wins (ARI ~0.93); a plain autoencoder only matches the raw
-baseline (~0.87), and PCA is held back by its linearity (~0.86).
+**Result.** DEC wins (ARI ~0.93); contrastive improves on the plain autoencoder
+(~0.89 vs ~0.87) because augmentation-invariance ignores noise; PCA is held back
+by its linearity (~0.86).
 
-**Judgement.** Honest finding - a reconstruction autoencoder is no free lunch
-(it embeds noise too); the gain comes from DEC's *clustering* objective. Deep
-clustering earns its keep only on genuine non-linear, high-dimensional
-structure, and is more seed-sensitive than the classical methods.
+**Judgement.** It is about *objectives* - a reconstruction autoencoder is no
+free lunch (it embeds noise too), while DEC (separation) and contrastive
+(invariance) optimise for what we want. Deep clustering earns its keep only on
+genuine non-linear, high-dimensional structure and is more seed-sensitive than
+the classical methods.

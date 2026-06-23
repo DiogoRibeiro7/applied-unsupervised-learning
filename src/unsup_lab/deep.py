@@ -23,6 +23,7 @@ from sklearn.cluster import KMeans
 try:  # PyTorch is an optional dependency.
     import torch
     from torch import nn
+    from torch.nn import functional as torch_functional
 except ImportError as error:  # pragma: no cover - exercised only without torch
     raise ImportError(
         "unsup_lab.deep requires PyTorch. Install it with `poetry install --with deep`."
@@ -301,5 +302,194 @@ def deep_embedded_clustering(
     return DeepClusteringResult(
         labels=np.asarray(labels, dtype=int),
         embedding=np.asarray(embedding_final.numpy(), dtype=float),
+        losses=losses,
+    )
+
+
+class _ContrastiveEncoder(nn.Module):
+    """An encoder with a projection head for contrastive learning.
+
+    Clustering uses the encoder representation ``h``; the contrastive loss acts
+    on the projection ``z`` (standard SimCLR practice).
+    """
+
+    def __init__(
+        self,
+        n_features: int,
+        hidden_dim: int,
+        latent_dim: int,
+        projection_dim: int,
+    ) -> None:
+        super().__init__()
+        self.encoder = nn.Sequential(
+            nn.Linear(n_features, hidden_dim),
+            nn.ReLU(),
+            nn.Linear(hidden_dim, latent_dim),
+        )
+        self.projection = nn.Sequential(
+            nn.Linear(latent_dim, projection_dim),
+            nn.ReLU(),
+            nn.Linear(projection_dim, projection_dim),
+        )
+
+    def forward(self, x: torch.Tensor) -> tuple[torch.Tensor, torch.Tensor]:
+        """Return the representation ``h`` and its projection ``z``."""
+        h = self.encoder(x)
+        return h, self.projection(h)
+
+
+def _augment(x: torch.Tensor, noise_std: float, mask_prob: float) -> torch.Tensor:
+    """Make a stochastic view of ``x`` via additive noise and feature masking."""
+    noisy = x + noise_std * torch.randn_like(x)
+    keep = (torch.rand_like(x) >= mask_prob).float()
+    return noisy * keep
+
+
+def _nt_xent_loss(projections: torch.Tensor, temperature: float) -> torch.Tensor:
+    """NT-Xent (InfoNCE) loss for ``2N`` views where row i pairs with row i+N."""
+    n2 = projections.shape[0]
+    half = n2 // 2
+    normed = torch_functional.normalize(projections, dim=1)
+    similarity = normed @ normed.T / temperature
+    similarity.fill_diagonal_(float("-inf"))
+    targets = torch.arange(n2)
+    targets = (targets + half) % n2
+    return torch_functional.cross_entropy(similarity, targets)
+
+
+def train_contrastive(
+    data: ArrayLike,
+    latent_dim: int = 10,
+    hidden_dim: int = 64,
+    projection_dim: int = 16,
+    epochs: int = 200,
+    learning_rate: float = 1e-3,
+    noise_std: float = 0.1,
+    mask_prob: float = 0.2,
+    temperature: float = 0.5,
+    random_state: int = 0,
+) -> tuple[_ContrastiveEncoder, list[float]]:
+    """Train a contrastive (SimCLR-style) encoder on tabular data.
+
+    Each row produces two augmented views (additive noise plus random feature
+    masking); the NT-Xent loss pulls a row's two views together and pushes
+    different rows apart. Because the objective rewards *invariance* to the
+    augmentation rather than reconstruction, the representation tends to ignore
+    augmentation-like noise.
+
+    Parameters
+    ----------
+    data:
+        Feature matrix (scale it beforehand).
+    latent_dim, hidden_dim, projection_dim:
+        Encoder and projection-head sizes.
+    epochs, learning_rate:
+        Optimisation settings (full-batch Adam).
+    noise_std:
+        Standard deviation of the additive Gaussian augmentation.
+    mask_prob:
+        Probability of zeroing each feature in a view.
+    temperature:
+        NT-Xent temperature.
+    random_state:
+        Seed for reproducibility.
+
+    Returns
+    -------
+    tuple
+        The trained encoder and the per-epoch contrastive losses.
+    """
+    x = _as_2d_array(data)
+    if not 1 <= latent_dim < x.shape[1]:
+        raise ValueError("latent_dim must be between 1 and n_features - 1.")
+    if not 0.0 <= mask_prob < 1.0:
+        raise ValueError("mask_prob must be in [0, 1).")
+    if temperature <= 0:
+        raise ValueError("temperature must be positive.")
+    if epochs < 1:
+        raise ValueError("epochs must be positive.")
+
+    torch.manual_seed(random_state)
+    tensor = torch.tensor(x, dtype=torch.float32)
+    model = _ContrastiveEncoder(x.shape[1], hidden_dim, latent_dim, projection_dim)
+    optimiser = torch.optim.Adam(model.parameters(), lr=learning_rate)
+
+    losses: list[float] = []
+    model.train()
+    for _ in range(epochs):
+        optimiser.zero_grad()
+        _, z1 = model(_augment(tensor, noise_std, mask_prob))
+        _, z2 = model(_augment(tensor, noise_std, mask_prob))
+        loss = _nt_xent_loss(torch.cat([z1, z2], dim=0), temperature)
+        loss.backward()
+        optimiser.step()
+        losses.append(float(loss.item()))
+    return model, losses
+
+
+def contrastive_embedding(model: _ContrastiveEncoder, data: ArrayLike) -> NDArray[np.float64]:
+    """Return the contrastive encoder's representation for the data."""
+    x = _as_2d_array(data)
+    model.eval()
+    with torch.no_grad():
+        representation, _ = model(torch.tensor(x, dtype=torch.float32))
+    return np.asarray(representation.numpy(), dtype=float)
+
+
+def contrastive_cluster(
+    data: ArrayLike,
+    n_clusters: int,
+    latent_dim: int = 10,
+    hidden_dim: int = 64,
+    projection_dim: int = 16,
+    epochs: int = 200,
+    learning_rate: float = 1e-3,
+    noise_std: float = 0.1,
+    mask_prob: float = 0.2,
+    temperature: float = 0.5,
+    random_state: int = 0,
+) -> DeepClusteringResult:
+    """Cluster data in a contrastively-learned representation space.
+
+    Parameters
+    ----------
+    data:
+        Feature matrix (scale it beforehand).
+    n_clusters:
+        Number of clusters.
+    latent_dim, hidden_dim, projection_dim, epochs, learning_rate, noise_std,
+    mask_prob, temperature:
+        Contrastive training hyper-parameters.
+    random_state:
+        Seed for the encoder and KMeans.
+
+    Returns
+    -------
+    DeepClusteringResult
+        Cluster labels, the learned representation and the training losses.
+    """
+    x = _as_2d_array(data)
+    if not 2 <= n_clusters <= x.shape[0]:
+        raise ValueError("n_clusters must be between 2 and the number of rows.")
+
+    model, losses = train_contrastive(
+        x,
+        latent_dim=latent_dim,
+        hidden_dim=hidden_dim,
+        projection_dim=projection_dim,
+        epochs=epochs,
+        learning_rate=learning_rate,
+        noise_std=noise_std,
+        mask_prob=mask_prob,
+        temperature=temperature,
+        random_state=random_state,
+    )
+    embedding = contrastive_embedding(model, x)
+    labels = KMeans(n_clusters=n_clusters, n_init=10, random_state=random_state).fit_predict(
+        embedding
+    )
+    return DeepClusteringResult(
+        labels=np.asarray(labels, dtype=int),
+        embedding=embedding,
         losses=losses,
     )

@@ -47,7 +47,7 @@ unsupervised-learning-lab/
 │   ├── graphs.py          # graph communities, node embeddings, node anomalies
 │   ├── config.py          # typed YAML run configuration
 │   ├── tracking.py        # dependency-free JSONL experiment tracker
-│   ├── deep.py            # autoencoder + DEC deep clustering (optional torch)
+│   ├── deep.py            # autoencoder, DEC & contrastive clustering (optional torch)
 │   ├── recommenders.py    # matrix factorization helpers
 │   ├── nlp.py             # topic-model cleaning, labels & diagnostics
 │   ├── service.py         # reusable clustering/anomaly/topic pipelines

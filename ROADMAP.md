@@ -154,7 +154,7 @@ This roadmap is designed to turn the repository from a notebook portfolio into a
 
 **Goal:** Make the repo stand out for senior and research-oriented roles.
 
-- [ ] Implement deep clustering:
+- [x] Implement deep clustering:
   - autoencoder embeddings
   - DEC-style clustering
   - contrastive representation learning
