@@ -158,7 +158,7 @@ This roadmap is designed to turn the repository from a notebook portfolio into a
   - autoencoder embeddings
   - DEC-style clustering
   - contrastive representation learning
-- [ ] Add graph-based unsupervised learning:
+- [x] Add graph-based unsupervised learning:
   - community detection
   - node embeddings
   - graph anomaly detection

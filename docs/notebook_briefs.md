@@ -270,3 +270,22 @@ the varying position (ARI ~0.2).
 **Judgement.** Brute-force search is O(candidates x series x window) and the
 shapelet length is a real choice; z-normalisation means amplitude-only
 differences are invisible.
+
+---
+
+## 15 - Deep Clustering (Autoencoder and DEC)
+
+**Question.** Does representation learning help cluster non-linearly tangled,
+noisy data where PCA and KMeans struggle?
+
+**Approach.** Autoencoder embedding + KMeans, and Deep Embedded Clustering (DEC)
+which fine-tunes the embedding with a clustering objective. Compare against raw
+KMeans and PCA+KMeans. Uses the optional PyTorch extra.
+
+**Result.** DEC wins (ARI ~0.93); a plain autoencoder only matches the raw
+baseline (~0.87), and PCA is held back by its linearity (~0.86).
+
+**Judgement.** Honest finding - a reconstruction autoencoder is no free lunch
+(it embeds noise too); the gain comes from DEC's *clustering* objective. Deep
+clustering earns its keep only on genuine non-linear, high-dimensional
+structure, and is more seed-sensitive than the classical methods.

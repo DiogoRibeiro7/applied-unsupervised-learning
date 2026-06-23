@@ -34,6 +34,7 @@ unsupervised-learning-lab/
 │   ├── 12_matrix_profile_motifs_discords.ipynb
 │   ├── 13_graph_node_embeddings_anomaly.ipynb
 │   ├── 14_unsupervised_shapelets.ipynb
+│   ├── 15_deep_clustering_autoencoder_dec.ipynb
 │   └── 99_lessons_learned.ipynb
 ├── src/unsup_lab/
 │   ├── data.py            # synthetic data generators
@@ -46,6 +47,7 @@ unsupervised-learning-lab/
 │   ├── graphs.py          # graph communities, node embeddings, node anomalies
 │   ├── config.py          # typed YAML run configuration
 │   ├── tracking.py        # dependency-free JSONL experiment tracker
+│   ├── deep.py            # autoencoder + DEC deep clustering (optional torch)
 │   ├── recommenders.py    # matrix factorization helpers
 │   ├── nlp.py             # topic-model cleaning, labels & diagnostics
 │   ├── service.py         # reusable clustering/anomaly/topic pipelines
@@ -146,6 +148,13 @@ poetry run uvicorn unsup_lab.api:app --reload
 # GET  /health
 # POST /cluster/assign   {"records": [{...features...}]}
 # POST /anomaly/score    {"records": [{...features...}]}
+```
+
+Deep clustering (optional PyTorch extra, used only by notebook 15 and
+`unsup_lab.deep`):
+
+```bash
+poetry install --with deep
 ```
 
 Container build (trains default models, then serves the API on port 8000):
