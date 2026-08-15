@@ -30,7 +30,9 @@ packages = [{ include = "unsup_lab", from = "src" }]
 # `deep` out of a default `poetry install`.
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.2.0"
-ruff = "^0.5.0"
+# Pin the linters to the versions the quality gate is actually verified against;
+# a loose constraint let CI drift years behind local dev and fail unnoticed.
+ruff = ">=0.16,<0.17"
 mypy = "^1.10.0"
 pandas-stubs = "^2.2.0.240603"
 types-pyyaml = "^6.0"
@@ -56,6 +58,11 @@ build-backend = "poetry.core.masonry.api"
 [tool.ruff]
 line-length = 100
 target-version = "py310"
+# Declare the package root explicitly so `unsup_lab` is always classified as
+# first-party. Ruff's default inference for this changed across versions, which
+# silently broke the CI lint gate: locally-installed ruff kept the tests' import
+# blocks separate while CI's older ruff demanded they be merged.
+src = ["src"]
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "UP", "B", "SIM"]
