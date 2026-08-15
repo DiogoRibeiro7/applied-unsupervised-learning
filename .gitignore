@@ -13,3 +13,4 @@ outputs/experiments/
 outputs/scheduled/
 data/*.csv
 data/*.parquet
+dist/

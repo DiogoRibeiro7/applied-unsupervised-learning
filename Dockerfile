@@ -11,9 +11,11 @@ WORKDIR /app
 RUN pip install "poetry==${POETRY_VERSION}"
 
 # Install dependencies first to leverage Docker layer caching.
-COPY pyproject.toml README.md ./
+COPY pyproject.toml poetry.lock README.md ./
 COPY src ./src
-RUN poetry install --only main --with api --no-interaction
+# `--with` is ignored when `--only` is given, so the groups are listed together:
+# `--only main --with api` would silently ship an image without uvicorn.
+RUN poetry install --only main,api --no-interaction
 
 # Train default models so the API has something to serve out of the box.
 RUN unsup-lab train-clustering && unsup-lab detect-anomalies

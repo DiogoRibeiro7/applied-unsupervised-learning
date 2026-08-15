@@ -158,9 +158,12 @@ def umass_topic_coherence(
     """Approximate per-topic UMass coherence from a binary document-term matrix.
 
     For each ordered pair of top terms ``(w_i, w_j)`` with ``i < j`` the score
-    accumulates ``log((D(w_i, w_j) + epsilon) / D(w_j))`` where ``D`` counts
-    documents. Higher (less negative) values indicate that a topic's top terms
-    genuinely co-occur, i.e. a more coherent topic.
+    accumulates ``log((D(w_i, w_j) + epsilon) / D(w_i))`` where ``D`` counts
+    documents. Following Mimno et al. (2011) the denominator is the *higher
+    ranked* term of the pair, so each term reads as the log conditional
+    probability of seeing the lower-ranked term given the more prominent one.
+    Higher (less negative) values indicate that a topic's top terms genuinely
+    co-occur, i.e. a more coherent topic.
 
     Parameters
     ----------
@@ -194,7 +197,7 @@ def umass_topic_coherence(
             column_j = presence[:, indices[j]]
             for i in range(j):
                 co_document = int(column_j.multiply(presence[:, indices[i]]).sum())
-                denominator = document_frequency[indices[j]] or epsilon
+                denominator = document_frequency[indices[i]] or epsilon
                 total += float(np.log((co_document + epsilon) / denominator))
                 pairs += 1
         scores.append(total / pairs if pairs else float("nan"))

@@ -39,6 +39,12 @@ def _as_2d_array(data: ArrayLike) -> np.ndarray:
 def evaluate_clustering(data: ArrayLike, labels: ArrayLike) -> ClusteringMetrics:
     """Evaluate clustering labels using internal validation metrics.
 
+    Points carrying the DBSCAN noise label ``-1`` are excluded before the
+    metrics are computed: noise is not a cluster, and scoring it as one distorts
+    the result (a handful of scattered noise points can become the "nearest
+    cluster" for many real points and depress the silhouette). The reported
+    ``n_clusters`` counts non-noise clusters for the same reason.
+
     Metrics that require at least two non-noise clusters return `None`
     when they are not well-defined.
     """
@@ -54,7 +60,8 @@ def evaluate_clustering(data: ArrayLike, labels: ArrayLike) -> ClusteringMetrics
     non_noise = [label for label in unique_labels if label != -1]
     n_clusters = len(non_noise)
 
-    if n_clusters < 2:
+    keep = y != -1
+    if n_clusters < 2 or int(keep.sum()) <= n_clusters:
         return ClusteringMetrics(
             n_clusters=n_clusters,
             silhouette=None,
@@ -62,11 +69,12 @@ def evaluate_clustering(data: ArrayLike, labels: ArrayLike) -> ClusteringMetrics
             calinski_harabasz=None,
         )
 
+    x_scored, y_scored = x[keep], y[keep]
     return ClusteringMetrics(
         n_clusters=n_clusters,
-        silhouette=float(silhouette_score(x, y)),
-        davies_bouldin=float(davies_bouldin_score(x, y)),
-        calinski_harabasz=float(calinski_harabasz_score(x, y)),
+        silhouette=float(silhouette_score(x_scored, y_scored)),
+        davies_bouldin=float(davies_bouldin_score(x_scored, y_scored)),
+        calinski_harabasz=float(calinski_harabasz_score(x_scored, y_scored)),
     )
 
 

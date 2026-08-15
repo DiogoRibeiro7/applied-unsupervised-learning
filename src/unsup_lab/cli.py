@@ -88,7 +88,11 @@ def cmd_train_clustering(args: argparse.Namespace) -> None:
     """Train a clustering pipeline on synthetic customer data."""
     dataset = make_customer_segmentation_data(args.n, random_state=args.random_state)
     pipeline, labels = train_clustering(dataset.features, args.k, random_state=args.random_state)
-    metrics = evaluate_clustering(dataset.features.to_numpy(), labels)
+    # Score in the space the model actually clusters in (after the pipeline's
+    # scaler). Scoring the raw features would let the largest-magnitude column
+    # dominate a distance the model never saw.
+    transformed = pipeline[:-1].transform(dataset.features.to_numpy())
+    metrics = evaluate_clustering(transformed, labels)
 
     save_artifact(
         pipeline,

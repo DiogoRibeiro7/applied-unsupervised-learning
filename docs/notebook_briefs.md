@@ -58,16 +58,22 @@ neighbour-preservation and reconstruction error matter more than a pretty plot.
 **Question.** Which operational events are abnormal, given no labels at scoring
 time?
 
-**Approach.** Synthetic IoT streams with noise, missingness, drift and injected
-anomalies. Compare Isolation Forest, LOF, robust covariance and PCA
-reconstruction error; calibrate thresholds; evaluate precision-at-k using hidden
-labels *only after* scoring.
+**Approach.** Synthetic IoT readings with a daily cycle, noise and injected
+anomalies. Score five detectors side by side - Isolation Forest, LOF, robust
+covariance, one-class SVM and PCA reconstruction error - then combine them, and
+evaluate precision-at-k using hidden labels *only after* scoring.
 
-**Result.** Ranked anomalies with analyst-facing explanations and a precision-at-k
-read on quality.
+**Result.** A ranked review table, a precision-at-k read per detector, and a
+worked demonstration that averaging raw scores from differently-scaled detectors
+is not an ensemble at all: the mean tracks robust covariance almost perfectly
+(correlation 1.00). Rank-normalised, the detectors visibly disagree - and the
+honest ensemble underperforms the best single detector, because LOF is near
+chance on globally-outlying anomalies.
 
 **Judgement.** Anomaly detection is ranking under uncertainty, not binary
-classification; labels are for offline evaluation, never for fitting.
+classification; labels are for offline evaluation, never for fitting. Combining
+detectors is only a gain when the members are individually decent and fail in
+different ways - match the detector to the anomaly you expect.
 
 ---
 

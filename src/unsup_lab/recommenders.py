@@ -195,7 +195,9 @@ def similar_items(
     normalised = _l2_normalise(factors)
     similarities = normalised @ normalised[item_id]
     similarities[item_id] = -np.inf
-    top = np.argsort(similarities)[::-1][:k]
+    # Never return more neighbours than exist, or the masked query item itself
+    # would be handed back with a -inf similarity.
+    top = np.argsort(similarities)[::-1][: min(k, n_items - 1)]
     return [(int(index), float(similarities[index])) for index in top]
 
 

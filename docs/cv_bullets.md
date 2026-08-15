@@ -15,7 +15,7 @@ honest (they describe the repository, not a production deployment).
   anomaly detection, topic modelling, recommender embeddings) using
   scikit-learn, NumPy and pandas, structured as reproducible case-study
   notebooks.
-- Built reusable, type-annotated modules with 90+ unit tests and a
+- Built reusable, type-annotated modules with 175+ unit tests and a
   ruff/mypy/pytest CI gate, including bootstrap stability, consensus clustering
   and streaming drift monitoring.
 - Emphasised model validation without labels - internal metrics, bootstrap

@@ -66,6 +66,14 @@ def test_matrix_profile_invalid_exclusion_raises() -> None:
         matrix_profile(np.zeros(100), window=10, exclusion_fraction=1.0)
 
 
+def test_matrix_profile_series_too_short_for_exclusion_zone_raises() -> None:
+    # 11 windows of length 10 with a 5-position exclusion zone leaves the middle
+    # subsequences without a single valid neighbour, which used to return a
+    # profile full of infinities instead of failing.
+    with pytest.raises(ValueError, match="exclusion zone"):
+        matrix_profile(np.arange(20.0), window=10)
+
+
 def test_discords_respect_exclusion_gap() -> None:
     series, window, _ = _repetitive_series()
     profile, _ = matrix_profile(series, window)

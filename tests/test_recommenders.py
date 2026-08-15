@@ -109,6 +109,16 @@ def test_similar_items_recovers_latent_group() -> None:
     assert 0 not in [index for index, _ in neighbours]  # query excluded
 
 
+def test_similar_items_caps_k_at_the_catalogue_size() -> None:
+    item_factors = np.eye(3)
+
+    neighbours = similar_items(item_factors, item_id=0, k=10)
+
+    # Only two other items exist, and the query is never one of them.
+    assert len(neighbours) == 2
+    assert 0 not in [index for index, _ in neighbours]
+
+
 def test_similar_items_out_of_range_raises() -> None:
     item_factors = np.eye(3)
 
