@@ -1,0 +1,36 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+title: "Unsupervised Learning Lab: a notebook-first study of applied unsupervised learning"
+abstract: >-
+  A notebook-first laboratory for applied unsupervised learning: seventeen
+  executed Jupyter notebooks covering segmentation, dimensionality reduction,
+  anomaly detection, topic modelling, recommender embeddings, stability
+  analysis, consensus and streaming clustering, nonparametric mixtures,
+  time-series and graph methods, and deep clustering. They are backed by
+  unsup_lab, a typed and tested Python package with deterministic synthetic
+  data generators, label-free evaluation and stability tooling, and a
+  production layer of CLI, model artifacts and a scoring API.
+type: software
+version: "0.1.0"
+date-released: "2026-08-16"
+# A single identifier: CFF reads a list of licenses as OR, which would wrongly
+# imply either license covers the whole work. The code is MIT; the notebooks
+# and documentation are CC BY 4.0. See LICENSE and LICENSE-CC-BY-4.0.txt.
+license: MIT
+repository-code: "https://github.com/DiogoRibeiro7/unsupervised-learning-lab"
+url: "https://github.com/DiogoRibeiro7/unsupervised-learning-lab"
+keywords:
+  - unsupervised learning
+  - clustering
+  - anomaly detection
+  - topic modelling
+  - dimensionality reduction
+  - cluster stability
+  - reproducible research
+  - scikit-learn
+  - Python
+authors:
+  - family-names: Ribeiro
+    given-names: Diogo
+    orcid: "https://orcid.org/0009-0001-2022-7072"
+    affiliation: "ESMAD - Escola Superior de Media Arte e Design, Instituto Politecnico do Porto"

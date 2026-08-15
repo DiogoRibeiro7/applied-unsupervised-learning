@@ -181,3 +181,27 @@ Key figures live in [`outputs/figures/`](outputs/figures/) (regenerate with `pyt
 ## Recommended extensions
 
 See [`ROADMAP.md`](ROADMAP.md) for the full ambitious roadmap and [`PROMPTS.md`](PROMPTS.md) for development prompts.
+
+## License
+
+Two licenses, split by what the content is:
+
+| Content | License | File |
+| --- | --- | --- |
+| Code - `src/`, `scripts/`, `tests/`, configuration | MIT | [`LICENSE`](LICENSE) |
+| Notebooks and prose - `notebooks/`, `docs/`, `README.md`, `ROADMAP.md` | CC BY 4.0 | [`LICENSE-CC-BY-4.0.txt`](LICENSE-CC-BY-4.0.txt) |
+
+The reasoning: MIT is what makes the reusable machinery genuinely reusable - drop
+`unsup_lab` into your own project and go. CC BY 4.0 fits the notebooks and
+written analysis, which are closer to an article than to a library, and asks
+only for attribution when they are reproduced or adapted.
+
+The packaged distribution (`poetry build`) contains only `src/unsup_lab`, so
+anything installed from a wheel is MIT in its entirety.
+
+## Citation
+
+Cited through [`CITATION.cff`](CITATION.cff), which GitHub renders as a
+"Cite this repository" button in the sidebar. Releases are archived on Zenodo
+via [`.zenodo.json`](.zenodo.json); the DOI badge is added here once the first
+release is minted.
