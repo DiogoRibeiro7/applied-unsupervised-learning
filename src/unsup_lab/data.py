@@ -174,7 +174,10 @@ def make_document_corpus(random_state: int = 42) -> pd.DataFrame:
     for topic, terms in topic_terms.items():
         for index in range(35):
             chosen = rng.choice(terms, size=18, replace=True)
-            noise_topic = rng.choice([name for name in topic_terms if name != topic])
+            other_topics = [name for name in topic_terms if name != topic]
+            # `str(...)` on an array draw keeps the key a plain string; drawing
+            # from the same values leaves the random stream unchanged.
+            noise_topic = str(rng.choice(np.asarray(other_topics)))
             noise = rng.choice(topic_terms[noise_topic], size=4, replace=True)
             words = np.concatenate([chosen, noise])
             rng.shuffle(words)
@@ -219,12 +222,13 @@ def make_user_item_interactions(
 
     rows = []
     user_idx, item_idx = np.nonzero(matrix)
-    for user_id, item_id in zip(user_idx, item_idx, strict=True):
+    # Distinct names from the `user_id` int loop above: these are NumPy indices.
+    for row_index, column_index in zip(user_idx, item_idx, strict=True):
         rows.append(
             {
-                "user_id": int(user_id),
-                "item_id": int(item_id),
-                "interaction_strength": float(matrix[user_id, item_id]),
+                "user_id": int(row_index),
+                "item_id": int(column_index),
+                "interaction_strength": float(matrix[row_index, column_index]),
             }
         )
 
