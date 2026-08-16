@@ -145,8 +145,17 @@ def test_batch_score_clustering(tmp_path: Path) -> None:
     }
     pd.DataFrame([record, record]).to_csv(input_csv, index=False)
 
-    main(["batch-score", "--model", str(model_out), "--input", str(input_csv),
-          "--output", str(output_csv)])
+    main(
+        [
+            "batch-score",
+            "--model",
+            str(model_out),
+            "--input",
+            str(input_csv),
+            "--output",
+            str(output_csv),
+        ]
+    )
 
     scored = pd.read_csv(output_csv)
     assert "cluster" in scored.columns

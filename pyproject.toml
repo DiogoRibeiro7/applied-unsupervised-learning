@@ -1,7 +1,7 @@
 [project]
 name = "unsupervised-learning-lab"
 version = "0.1.0"
-description = "Notebook-first portfolio repository for applied unsupervised learning."
+description = "Notebook-first portfolio for applied unsupervised learning with reproducible experiments and tested Python utilities."
 authors = [{ name = "Diogo Ribeiro", email = "hansolo.dj@gmail.com" }]
 readme = "README.md"
 # The built distribution contains only src/unsup_lab, so the wheel is MIT in
@@ -10,6 +10,29 @@ readme = "README.md"
 license = "MIT"
 license-files = ["LICENSE"]
 requires-python = ">=3.10,<3.14"
+keywords = [
+    "anomaly-detection",
+    "clustering",
+    "data-science",
+    "dimensionality-reduction",
+    "machine-learning",
+    "recommender-systems",
+    "topic-modeling",
+    "unsupervised-learning",
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Scientific/Engineering :: Information Analysis",
+    "Typing :: Typed",
+]
 dependencies = [
     "numpy>=1.26",
     "pandas>=2.2",
@@ -23,6 +46,13 @@ dependencies = [
     "nbclient>=0.10.0,<0.11.0",
     "nbformat>=5.10.0,<6.0.0",
 ]
+
+[project.urls]
+Homepage = "https://github.com/DiogoRibeiro7/unsupervised-learning-lab"
+Repository = "https://github.com/DiogoRibeiro7/unsupervised-learning-lab"
+Documentation = "https://github.com/DiogoRibeiro7/unsupervised-learning-lab/tree/main/docs"
+Issues = "https://github.com/DiogoRibeiro7/unsupervised-learning-lab/issues"
+Changelog = "https://github.com/DiogoRibeiro7/unsupervised-learning-lab/blob/main/CHANGELOG.md"
 
 [project.scripts]
 unsup-lab = "unsup_lab.cli:main"
@@ -68,6 +98,9 @@ target-version = "py310"
 # silently broke the CI lint gate: locally-installed ruff kept the tests' import
 # blocks separate while CI's older ruff demanded they be merged.
 src = ["src"]
+
+[tool.ruff.format]
+docstring-code-format = true
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "UP", "B", "SIM"]

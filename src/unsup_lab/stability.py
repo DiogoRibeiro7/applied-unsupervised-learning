@@ -355,9 +355,7 @@ def outlier_sensitivity(
         if n_outliers == 0:
             augmented = x
         else:
-            outliers = centre + outlier_scale * spread * rng.normal(
-                size=(n_outliers, x.shape[1])
-            )
+            outliers = centre + outlier_scale * spread * rng.normal(size=(n_outliers, x.shape[1]))
             augmented = np.vstack([x, outliers])
 
         labels = np.asarray(estimator_factory(random_state).fit_predict(augmented))
