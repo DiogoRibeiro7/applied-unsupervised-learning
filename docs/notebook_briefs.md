@@ -77,10 +77,20 @@ is not an ensemble at all: the mean tracks robust covariance almost perfectly
 honest ensemble underperforms the best single detector, because LOF is near
 chance on globally-outlying anomalies.
 
+A closing section turns the ranking into a decision: four label-free cut
+strategies (quantile, robust MAD, knee, Otsu) applied to the two strongest
+detectors, then scored offline *after* being chosen. Against the same 120
+anomalies they demand between 116 and 322 alerts - a factor of 2.8 - and Otsu is
+simultaneously the best rule (precision 1.000 on robust covariance, whose scores
+genuinely form two populations) and among the worst (precision 0.585 on the
+isolation forest, whose scores are a continuum).
+
 **Judgement.** Anomaly detection is ranking under uncertainty, not binary
 classification; labels are for offline evaluation, never for fitting. Combining
 detectors is only a gain when the members are individually decent and fail in
-different ways - match the detector to the anomaly you expect.
+different ways - match the detector to the anomaly you expect. And a ranking is
+not yet a system: where the cut falls is a decision of the same magnitude as
+which detector produced the scores.
 
 ---
 
