@@ -1,5 +1,10 @@
 # Unsupervised Learning Lab
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21963335.svg)](https://doi.org/10.5281/zenodo.21963335)
+[![CI](https://github.com/DiogoRibeiro7/unsupervised-learning-lab/actions/workflows/ci.yml/badge.svg)](https://github.com/DiogoRibeiro7/unsupervised-learning-lab/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/code%20license-MIT-blue.svg)](LICENSE)
+[![License: CC BY 4.0](https://img.shields.io/badge/docs%20license-CC%20BY%204.0-lightgrey.svg)](LICENSE-CC-BY-4.0.txt)
+
 A portfolio repository focused on **unsupervised learning**, designed around high-quality Jupyter notebooks with supporting production-style Python code.
 
 The goal is not to show isolated algorithms. The goal is to show that unsupervised learning can be treated as a serious modelling workflow: data generation, representation learning, clustering, anomaly detection, topic discovery, recommender embeddings, model selection, stability analysis, interpretation, and deployment-minded reporting.
@@ -200,7 +205,26 @@ anything installed from a wheel is MIT in its entirety.
 
 ## Citation
 
-Cited through [`CITATION.cff`](CITATION.cff), which GitHub renders as a
-"Cite this repository" button in the sidebar. Releases are archived on Zenodo
-via [`.zenodo.json`](.zenodo.json); the DOI badge is added here once the first
-release is minted.
+Every release is archived on Zenodo. Cite the **concept DOI**, which always
+resolves to the most recent version:
+
+> Ribeiro, D. (2026). *Unsupervised Learning Lab: a notebook-first study of
+> applied unsupervised learning*. Zenodo. https://doi.org/10.5281/zenodo.21963335
+
+```bibtex
+@software{ribeiro_unsupervised_learning_lab,
+  author    = {Ribeiro, Diogo},
+  title     = {Unsupervised Learning Lab: a notebook-first study of
+               applied unsupervised learning},
+  publisher = {Zenodo},
+  year      = {2026},
+  doi       = {10.5281/zenodo.21963335},
+  url       = {https://doi.org/10.5281/zenodo.21963335}
+}
+```
+
+To cite one exact snapshot instead, use that release's own version DOI - for
+`v0.1.0` it is [10.5281/zenodo.21963336](https://doi.org/10.5281/zenodo.21963336).
+[`CITATION.cff`](CITATION.cff) carries the same metadata and drives GitHub's
+"Cite this repository" button; [`.zenodo.json`](.zenodo.json) describes each
+deposit as it is archived.
