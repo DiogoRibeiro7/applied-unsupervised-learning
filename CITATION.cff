@@ -19,6 +19,13 @@ identifiers:
   - type: doi
     value: 10.5281/zenodo.21963335
     description: Concept DOI for all versions of this software.
+  # Version DOIs: each pins one exact archived snapshot.
+  - type: doi
+    value: 10.5281/zenodo.21966192
+    description: DOI for version 0.2.0.
+  - type: doi
+    value: 10.5281/zenodo.21963336
+    description: DOI for version 0.1.0, published under the former project name.
 # A single identifier: CFF reads a list of licenses as OR, which would wrongly
 # imply either license covers the whole work. The code is MIT; the notebooks
 # and documentation are CC BY 4.0. See LICENSE and LICENSE-CC-BY-4.0.txt.
