@@ -6,6 +6,13 @@ on:
   pull_request:
     branches: [main]
 
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   quality:
     runs-on: ubuntu-latest
@@ -32,6 +39,12 @@ jobs:
       # log rather than a silent pass.
       - name: Install dependencies
         run: poetry install --with api --no-interaction
+
+      - name: Poetry metadata
+        run: poetry check
+
+      - name: Ruff (format check)
+        run: poetry run ruff format . --check
 
       - name: Ruff (lint)
         run: poetry run ruff check .

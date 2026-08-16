@@ -73,12 +73,7 @@ def make_customer_segmentation_data(
     )
     scales = np.array([8, 5, 24, 0.08, 0.08, 0.10])
 
-    raw = np.vstack(
-        [
-            rng.normal(loc=means[segment_id], scale=scales)
-            for segment_id in segment_ids
-        ]
-    )
+    raw = np.vstack([rng.normal(loc=means[segment_id], scale=scales) for segment_id in segment_ids])
 
     features = pd.DataFrame(
         raw,
@@ -153,20 +148,52 @@ def make_document_corpus(random_state: int = 42) -> pd.DataFrame:
 
     topic_terms = {
         "healthcare": [
-            "clinic", "patient", "diagnosis", "treatment", "hospital",
-            "nurse", "appointment", "triage", "capacity", "care",
+            "clinic",
+            "patient",
+            "diagnosis",
+            "treatment",
+            "hospital",
+            "nurse",
+            "appointment",
+            "triage",
+            "capacity",
+            "care",
         ],
         "finance": [
-            "portfolio", "risk", "returns", "volatility", "market",
-            "asset", "drawdown", "liquidity", "forecast", "capital",
+            "portfolio",
+            "risk",
+            "returns",
+            "volatility",
+            "market",
+            "asset",
+            "drawdown",
+            "liquidity",
+            "forecast",
+            "capital",
         ],
         "retail": [
-            "customer", "basket", "discount", "purchase", "campaign",
-            "loyalty", "product", "segment", "conversion", "churn",
+            "customer",
+            "basket",
+            "discount",
+            "purchase",
+            "campaign",
+            "loyalty",
+            "product",
+            "segment",
+            "conversion",
+            "churn",
         ],
         "iot": [
-            "sensor", "gateway", "signal", "battery", "motion",
-            "temperature", "device", "stream", "event", "anomaly",
+            "sensor",
+            "gateway",
+            "signal",
+            "battery",
+            "motion",
+            "temperature",
+            "device",
+            "stream",
+            "event",
+            "anomaly",
         ],
     }
 

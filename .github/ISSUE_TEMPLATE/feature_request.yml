@@ -1,0 +1,54 @@
+name: Feature request
+description: Suggest a scoped modelling, notebook, documentation, or tooling improvement.
+title: "[Feature]: "
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What modelling, reproducibility, documentation, or developer workflow gap does this address?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed change
+      description: Describe the smallest useful change.
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - notebook
+        - clustering
+        - dimensionality-reduction
+        - anomaly-detection
+        - topic-modeling
+        - recommender-systems
+        - model-selection
+        - stability-analysis
+        - time-series
+        - graphs
+        - api-service
+        - documentation
+        - testing
+        - reproducibility
+    validations:
+      required: true
+  - type: textarea
+    id: validation
+    attributes:
+      label: Validation plan
+      description: How should this be tested or demonstrated?
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Checks
+      options:
+        - label: This does not require private data or API keys.
+          required: true
+        - label: This will not present unsupervised clusters as ground truth.
+          required: true
