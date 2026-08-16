@@ -10,10 +10,10 @@ jobs:
   quality:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v7
         with:
           python-version: "3.12"
 
@@ -21,15 +21,15 @@ jobs:
         run: pipx install poetry
 
       - name: Configure Poetry cache
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with:
           path: ~/.cache/pypoetry
           key: poetry-${{ runner.os }}-${{ hashFiles('poetry.lock') }}
 
       # The `api` group is small and its tests would otherwise be skipped
-      # silently. The `deep` group (PyTorch) is left out on purpose: it is a
-      # multi-gigabyte download, so `tests/test_deep.py` skips in CI - `-rs`
-      # below makes that skip visible in the log rather than a silent pass.
+      # silently. The `deep` group is handled by the separate job below, so
+      # `tests/test_deep.py` skips here - `-rs` makes that skip visible in the
+      # log rather than a silent pass.
       - name: Install dependencies
         run: poetry install --with api --no-interaction
 
@@ -44,3 +44,52 @@ jobs:
 
       - name: Notebook smoke execution
         run: poetry run python scripts/run_all_notebooks.py --only 00_project_overview.ipynb
+
+  # `unsup_lab.deep` is the largest and most intricate module in the package,
+  # and until now nothing in CI executed a line of it: `poetry install` skips
+  # optional groups, so its tests silently skipped. Installing the default
+  # PyPI torch would drag in ~2.5 GB of CUDA packages, so this job takes the
+  # 190 MB CPU build of the *same version the lock pins* instead.
+  deep:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Set up Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+
+      - name: Install Poetry
+        run: pipx install poetry
+
+      - name: Configure Poetry cache
+        uses: actions/cache@v6
+        with:
+          path: ~/.cache/pypoetry
+          key: poetry-deep-${{ runner.os }}-${{ hashFiles('poetry.lock') }}
+
+      - name: Install dependencies
+        run: poetry install --no-interaction
+
+      - name: Install CPU-only PyTorch
+        run: |
+          TORCH_VERSION=$(grep -A1 '^name = "torch"' poetry.lock \
+            | grep '^version' | head -1 | cut -d'"' -f2)
+          echo "Installing torch==${TORCH_VERSION} (CPU build) to match poetry.lock"
+          poetry run pip install --quiet "torch==${TORCH_VERSION}" \
+            --index-url https://download.pytorch.org/whl/cpu
+
+      - name: Verify the installed torch matches the lock
+        run: |
+          poetry run python - <<'PY'
+          import re, pathlib, torch
+          lock = pathlib.Path("poetry.lock").read_text(encoding="utf-8")
+          locked = re.search(r'name = "torch"\nversion = "([^"]+)"', lock).group(1)
+          installed = torch.__version__.split("+")[0]
+          print(f"lock: {locked} | installed: {torch.__version__}")
+          assert installed == locked, f"torch {installed} does not match locked {locked}"
+          PY
+
+      - name: Pytest (deep clustering)
+        run: poetry run pytest tests/test_deep.py -q
