@@ -34,7 +34,7 @@ packages = [{ include = "unsup_lab", from = "src" }]
 # part of the PEP 621 [project] table, and `optional = true` keeps `api` and
 # `deep` out of a default `poetry install`.
 [tool.poetry.group.dev.dependencies]
-pytest = "^8.2.0"
+pytest = "^9.0.3"
 # Pin the linters to the versions the quality gate is actually verified against;
 # a loose constraint let CI drift years behind local dev and fail unnoticed.
 ruff = ">=0.16,<0.17"
