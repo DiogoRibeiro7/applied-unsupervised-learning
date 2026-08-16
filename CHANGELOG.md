@@ -10,10 +10,21 @@ This project follows a practical versioning policy:
 
 ## Unreleased
 
+## 0.2.0 - 2026-08-16
+
 ### Added
 
 - Professional repository metadata, contribution guidance, security policy, issue
   templates, pull request template, and dependency update configuration.
+- Repository rename to Applied Unsupervised Learning, including project
+  metadata, documentation, citation, and Zenodo metadata updates.
+- Deep-clustering CI coverage using the CPU PyTorch build pinned by the lock
+  file.
+
+### Changed
+
+- Notebook 01 now includes a stronger clustering algorithm comparison.
+- Dependency updates from Dependabot.
 
 ## 0.1.0
 

@@ -3,7 +3,7 @@
   "access_right": "open",
   "license": "mit",
   "title": "Applied Unsupervised Learning: reproducible workflows for label-free modelling",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "creators": [
     {
       "name": "Ribeiro, Diogo",

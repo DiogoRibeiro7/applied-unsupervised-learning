@@ -25,7 +25,7 @@ from pydantic import BaseModel, Field
 from unsup_lab.artifacts import load_artifact
 from unsup_lab.service import anomaly_scores, assign_clusters
 
-app = FastAPI(title="Applied Unsupervised Learning", version="0.1.0")
+app = FastAPI(title="Applied Unsupervised Learning", version="0.2.0")
 
 
 def _model_dir() -> Path:

@@ -11,7 +11,7 @@ abstract: >-
   data generators, label-free evaluation and stability tooling, and a
   production layer of CLI, model artifacts and a scoring API.
 type: software
-version: "0.1.0"
+version: "0.2.0"
 date-released: "2026-08-16"
 doi: 10.5281/zenodo.21963335
 identifiers:
@@ -19,10 +19,6 @@ identifiers:
   - type: doi
     value: 10.5281/zenodo.21963335
     description: Concept DOI for all versions of this software.
-  # The version DOI: this exact snapshot.
-  - type: doi
-    value: 10.5281/zenodo.21963336
-    description: DOI for version 0.1.0.
 # A single identifier: CFF reads a list of licenses as OR, which would wrongly
 # imply either license covers the whole work. The code is MIT; the notebooks
 # and documentation are CC BY 4.0. See LICENSE and LICENSE-CC-BY-4.0.txt.
