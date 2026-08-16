@@ -204,13 +204,21 @@ def matrix_profile(
     if n_windows < 2:
         raise ValueError("series is too short for more than one subsequence.")
 
+    exclusion = int(round(exclusion_fraction * window))
+    # Every subsequence needs at least one neighbour outside its exclusion zone;
+    # otherwise the profile silently fills with infinities.
+    if n_windows < 2 * exclusion + 2:
+        raise ValueError(
+            "series is too short for this window and exclusion zone: it needs at least "
+            f"{2 * exclusion + 2 + window - 1} points, got {values.size}."
+        )
+
     mean = windows.mean(axis=1, keepdims=True)
     std = windows.std(axis=1, keepdims=True)
     std[std == 0] = 1.0
     normalised = (windows - mean) / std
 
     distances = cdist(normalised, normalised)
-    exclusion = int(round(exclusion_fraction * window))
     for i in range(n_windows):
         low = max(0, i - exclusion)
         high = min(n_windows, i + exclusion + 1)

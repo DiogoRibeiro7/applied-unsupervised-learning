@@ -24,10 +24,14 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ~/.cache/pypoetry
-          key: poetry-${{ runner.os }}-${{ hashFiles('pyproject.toml') }}
+          key: poetry-${{ runner.os }}-${{ hashFiles('poetry.lock') }}
 
+      # The `api` group is small and its tests would otherwise be skipped
+      # silently. The `deep` group (PyTorch) is left out on purpose: it is a
+      # multi-gigabyte download, so `tests/test_deep.py` skips in CI - `-rs`
+      # below makes that skip visible in the log rather than a silent pass.
       - name: Install dependencies
-        run: poetry install --no-interaction
+        run: poetry install --with api --no-interaction
 
       - name: Ruff (lint)
         run: poetry run ruff check .
@@ -36,7 +40,7 @@ jobs:
         run: poetry run mypy src
 
       - name: Pytest
-        run: poetry run pytest -q
+        run: poetry run pytest -q -rs
 
       - name: Notebook smoke execution
         run: poetry run python scripts/run_all_notebooks.py --only 00_project_overview.ipynb

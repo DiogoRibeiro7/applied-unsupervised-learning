@@ -73,6 +73,22 @@ def test_umass_coherence_prefers_cooccurring_terms() -> None:
     assert coherent > incoherent
 
 
+def test_umass_coherence_conditions_on_the_higher_ranked_term() -> None:
+    # "common" appears in 10 documents, "rare" in 2 of them, so the topic
+    # ["common", "rare"] scores log((2 + 1) / 10): the denominator is the
+    # document frequency of the *higher ranked* term. Dividing by the rarer
+    # term instead would give a positive "coherence", which a log conditional
+    # probability can never be.
+    docs = ["common"] * 8 + ["common rare"] * 2
+    vectorizer = CountVectorizer()
+    matrix = vectorizer.fit_transform(docs)
+
+    (score,) = umass_topic_coherence([["common", "rare"]], matrix, vectorizer.vocabulary_)
+
+    assert score == pytest.approx(float(np.log(3 / 10)))
+    assert score < 0
+
+
 def test_umass_coherence_requires_sparse() -> None:
     with pytest.raises(TypeError):
         umass_topic_coherence([["a", "b"]], np.zeros((2, 2)), {"a": 0, "b": 1})  # type: ignore[arg-type]

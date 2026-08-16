@@ -22,10 +22,14 @@ explicit about what unsupervised results can and cannot support.
 | Model selection & stability | bootstrap stability, AMI, scaling/outlier sensitivity | `stability` |
 | Consensus clustering | co-association ensemble | `consensus` |
 | Streaming & drift | mini-batch KMeans, PSI drift monitoring | `streaming` |
+| Nonparametric mixtures | Dirichlet-process Gaussian mixtures, soft-assignment entropy | `bayesian` |
+| Time series | DTW clustering, matrix profile, unsupervised shapelets | `timeseries` |
+| Graphs | community detection, spectral node embeddings, node anomalies | `graphs` |
+| Deep clustering | autoencoder, DEC, contrastive (optional PyTorch extra) | `deep` |
 
 ## Engineering practices
 
-- Typed, documented, input-validated functions with **92 unit tests**.
+- Typed, documented, input-validated functions with **175+ unit tests**.
 - Quality gate of **ruff + mypy + pytest** plus a notebook smoke-execution,
   wired into GitHub Actions CI.
 - Deterministic synthetic data generators (fixed seeds) so every notebook is
@@ -36,8 +40,9 @@ explicit about what unsupervised results can and cannot support.
 ## What it deliberately avoids
 
 - Treating unsupervised clusters or anomaly scores as ground truth.
-- Heavy deep-learning dependencies; everything runs on NumPy, pandas, scipy,
-  scikit-learn and matplotlib.
+- Heavy dependencies in the core install: everything except notebook 15 runs on
+  NumPy, pandas, scipy, scikit-learn and matplotlib. PyTorch is an opt-in extra
+  (`poetry install --with deep`) used solely by the deep-clustering notebook.
 - Dependence on external APIs or private datasets.
 
 ## Selected figures

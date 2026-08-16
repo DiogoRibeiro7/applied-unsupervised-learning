@@ -6,12 +6,12 @@ This roadmap is designed to turn the repository from a notebook portfolio into a
 
 **Goal:** Make the repository clean, reproducible, and credible.
 
-- [ ] Add deterministic synthetic data generators with configurable random seeds.
-- [ ] Add typed reusable functions for preprocessing, evaluation, plotting, and reporting.
-- [ ] Add notebook execution checks using `nbclient` or `papermill`.
-- [ ] Add unit tests for all non-notebook code.
-- [ ] Add CI with linting, type checks, tests, and notebook smoke tests.
-- [ ] Add a clear README with problem framing, business use cases, and modelling decisions.
+- [x] Add deterministic synthetic data generators with configurable random seeds.
+- [x] Add typed reusable functions for preprocessing, evaluation, plotting, and reporting.
+- [x] Add notebook execution checks using `nbclient` or `papermill`.
+- [x] Add unit tests for all non-notebook code.
+- [x] Add CI with linting, type checks, tests, and notebook smoke tests.
+- [x] Add a clear README with problem framing, business use cases, and modelling decisions.
 
 **Success criteria**
 
@@ -27,43 +27,46 @@ This roadmap is designed to turn the repository from a notebook portfolio into a
 
 ### Clustering
 
-- [ ] Implement comparative clustering workflows:
-  - KMeans
-  - Gaussian Mixture Models
-  - Agglomerative Clustering
-  - DBSCAN
-  - HDBSCAN, optional dependency
-  - Spectral Clustering
-- [ ] Add cluster profiling tables.
+- Implement comparative clustering workflows:
+  - [x] KMeans
+  - [x] Gaussian Mixture Models
+  - [x] Agglomerative Clustering
+  - [x] DBSCAN
+  - [ ] HDBSCAN, optional dependency
+  - [x] Spectral Clustering (on graphs, `unsup_lab.graphs`; not yet in the tabular comparison)
+- [x] Add cluster profiling tables.
 - [ ] Add automatic cluster naming based on feature summaries.
-- [ ] Compare compact, density-based, hierarchical, and probabilistic cluster assumptions.
+- [x] Compare compact, density-based, hierarchical, and probabilistic cluster assumptions.
 - [ ] Add failure-case examples where each method performs poorly.
 
 ### Dimensionality reduction
 
 - [ ] Add PCA from both scikit-learn and a small NumPy implementation.
-- [ ] Add reconstruction error analysis.
-- [ ] Add explained variance diagnostics.
-- [ ] Add manifold learning comparisons:
-  - Isomap
-  - Locally Linear Embedding
-  - Kernel PCA
-  - UMAP as optional extension
-- [ ] Add a section on when 2D visual separation is misleading.
+- [ ] Add reconstruction error analysis. (Used for anomaly scoring in notebook 03, not yet as a
+      dimensionality-reduction diagnostic in notebook 02.)
+- [x] Add explained variance diagnostics.
+- Add manifold learning comparisons:
+  - [x] Isomap
+  - [x] Locally Linear Embedding
+  - [x] Kernel PCA
+  - [ ] UMAP as optional extension
+- [x] Add a section on when 2D visual separation is misleading.
 
 ### Anomaly detection
 
-- [ ] Implement anomaly detection notebooks for:
-  - Isolation Forest
-  - Local Outlier Factor
-  - Robust covariance
-  - One-Class SVM
-  - PCA reconstruction error
-  - Autoencoder, optional deep learning extension
+- Implement anomaly detection notebooks for:
+  - [x] Isolation Forest
+  - [x] Local Outlier Factor
+  - [x] Robust covariance
+  - [x] One-Class SVM
+  - [x] PCA reconstruction error
+  - [ ] Autoencoder, optional deep learning extension (the autoencoder in `unsup_lab.deep` is used
+        for clustering, not yet for anomaly scoring)
 - [ ] Add threshold selection strategies.
-- [ ] Add analyst review tables.
-- [ ] Add drift-aware anomaly monitoring.
-- [ ] Add precision-at-k evaluation when synthetic labels are known but hidden during modelling.
+- [x] Add analyst review tables.
+- [x] Add drift-aware anomaly monitoring. (Cluster/feature drift in notebook 08; not yet tied back
+      to the anomaly detectors.)
+- [x] Add precision-at-k evaluation when synthetic labels are known but hidden during modelling.
 
 ---
 
@@ -73,34 +76,38 @@ This roadmap is designed to turn the repository from a notebook portfolio into a
 
 ### Case Study 1 — Customer Segmentation
 
-- [ ] Simulate customer behaviour with latent personas.
-- [ ] Add RFM features, product affinity, price sensitivity, churn-risk proxies, and campaign response features.
-- [ ] Build segmentation pipelines.
+- [x] Simulate customer behaviour with latent personas.
+- [x] Add RFM features, product affinity, price sensitivity, churn-risk proxies, and campaign response features.
+- [x] Build segmentation pipelines.
 - [ ] Produce persona cards.
 - [ ] Add recommended business actions per segment.
 
 ### Case Study 2 — Sensor Anomaly Discovery
 
 - [ ] Simulate IoT sensor streams with missingness, drift, unusual usage, and device faults.
-- [ ] Compare point anomalies, contextual anomalies, and collective anomalies.
+      (The generator has a daily cycle and injected point anomalies; missingness is a feature
+      column rather than actual gaps, and there is no drift or device-fault mode yet.)
+- [ ] Compare point anomalies, contextual anomalies, and collective anomalies. (Notebook 12
+      contrasts a shape anomaly against a point-wise z-score; notebook 03 is point-only.)
 - [ ] Add time-aware aggregation.
-- [ ] Add analyst-facing anomaly explanations.
+- [ ] Add analyst-facing anomaly explanations. (Notebook 03 ranks and reviews; it does not yet
+      attribute a score to the features that drove it.)
 
 ### Case Study 3 — Document Topic Discovery
 
-- [ ] Add unsupervised topic modelling with TF-IDF + NMF.
-- [ ] Add Latent Semantic Analysis.
+- [x] Add unsupervised topic modelling with TF-IDF + NMF.
+- [x] Add Latent Semantic Analysis.
 - [x] Add topic coherence approximation.
 - [x] Add automatic topic labels using top terms.
 - [ ] Add optional BERTopic-style extension with embeddings.
 
 ### Case Study 4 — Recommender Embeddings
 
-- [ ] Build a synthetic user-item interaction matrix.
-- [ ] Learn latent factors with TruncatedSVD or NMF.
-- [ ] Visualise user and item embeddings.
-- [ ] Identify product groups and user taste communities.
-- [ ] Add cold-start discussion.
+- [x] Build a synthetic user-item interaction matrix.
+- [x] Learn latent factors with TruncatedSVD or NMF.
+- [x] Visualise user and item embeddings.
+- [x] Identify product groups and user taste communities.
+- [x] Add cold-start discussion.
 
 ---
 
@@ -108,18 +115,19 @@ This roadmap is designed to turn the repository from a notebook portfolio into a
 
 **Goal:** Show senior-level judgement.
 
-- [ ] Add bootstrap cluster stability.
-- [ ] Add adjusted mutual information between repeated clusterings.
-- [ ] Add sensitivity analysis for:
-  - random seeds
-  - number of clusters
-  - feature scaling
-  - outlier contamination
-  - dimensionality reduction method
+- [x] Add bootstrap cluster stability.
+- [x] Add adjusted mutual information between repeated clusterings.
+- Add sensitivity analysis for:
+  - [x] random seeds
+  - [x] number of clusters
+  - [x] feature scaling
+  - [x] outlier contamination
+  - [ ] dimensionality reduction method
 - [x] Add consensus clustering.
-- [ ] Add uncertainty estimates for soft clustering.
+- [x] Add uncertainty estimates for soft clustering.
 - [ ] Add cluster transition analysis under data drift.
 - [ ] Add explainability using feature distributions, centroids, SHAP-style surrogate models, and local examples.
+      (Cluster profiling tables exist; surrogate models and local examples do not.)
 
 **Success criteria**
 
@@ -134,12 +142,13 @@ This roadmap is designed to turn the repository from a notebook portfolio into a
 **Goal:** Show that the notebook work can become a maintainable product.
 
 - [x] Package reusable pipelines under `src/unsup_lab`.
-- [ ] Add a CLI:
+- [x] Add a CLI:
   - `unsup-lab generate-data`
   - `unsup-lab train-clustering`
   - `unsup-lab detect-anomalies`
   - `unsup-lab build-topic-model`
   - `unsup-lab report`
+  - `unsup-lab batch-score`
 - [x] Add model artifact saving with metadata.
 - [x] Add experiment tracking with MLflow or a lightweight local JSON tracker.
 - [x] Add configuration with YAML.
@@ -166,15 +175,15 @@ This roadmap is designed to turn the repository from a notebook portfolio into a
   - mini-batch KMeans
   - online centroid updates
   - drift-aware cluster monitoring
-- [x] Add probabilistic modelling:
-  - Bayesian Gaussian mixtures
-  - Dirichlet Process Mixtures
-  - Hidden Markov Models for latent states
-- [ ] Add time-series representation learning:
-  - shapelets
-  - matrix profiles
-  - dynamic time warping clustering
-  - seasonal anomaly detection
+- Add probabilistic modelling:
+  - [x] Bayesian Gaussian mixtures
+  - [x] Dirichlet Process Mixtures
+  - [ ] Hidden Markov Models for latent states
+- Add time-series representation learning:
+  - [x] shapelets
+  - [x] matrix profiles
+  - [x] dynamic time warping clustering
+  - [ ] seasonal anomaly detection
 - [ ] Add privacy-preserving or federated unsupervised learning discussion.
 
 ---

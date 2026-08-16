@@ -80,10 +80,26 @@ gives parameter/metric comparison and an audit trail with zero dependencies.
 **Tradeoff.** No UI, no artifact store, no distributed runs - fine at this scale,
 and an obvious upgrade point if the work grew.
 
-## No deep-learning dependencies (yet)
+## Deep learning behind an optional extra
 
-**Decision.** Keep to NumPy, pandas, scipy, scikit-learn and matplotlib.
-**Why.** It keeps installs light and the focus on modelling judgement rather than
-framework plumbing. **Tradeoff.** Some advanced extensions (autoencoder /
-contrastive / DEC clustering) are deferred; they are flagged in the roadmap as a
-deliberate next phase, not an oversight.
+**Decision.** Keep the core install to NumPy, pandas, scipy, scikit-learn and
+matplotlib, and put PyTorch behind an optional group (`poetry install --with
+deep`) used only by `unsup_lab.deep` and notebook 15. **Why.** The deep
+clustering methods (autoencoder embeddings, DEC, contrastive) earn their place
+in the argument about *objectives*, but a reader who only wants the classical
+notebooks should not have to download a deep-learning framework to run them.
+**Tradeoff.** One notebook and one module cannot run on a bare install, so the
+dependency is stated wherever they are referenced, and no other module imports
+them.
+
+## Rank-normalise before combining anomaly detectors
+
+**Decision.** In notebook 03, average detector *ranks*, not raw scores.
+**Why.** The five detectors output incomparable quantities - a Mahalanobis-style
+distance in the hundreds next to an isolation-forest score in tenths - so a
+plain mean is a weighted vote in which one detector holds all the weight (the
+correlation between the raw mean and robust covariance alone is 1.00).
+**Tradeoff.** On this dataset the honest rank ensemble scores *worse* than the
+best single detector, because local outlier factor is near chance here. That is
+the real lesson and it is left in the notebook rather than tuned away:
+ensembling helps when members are individually decent and fail differently.

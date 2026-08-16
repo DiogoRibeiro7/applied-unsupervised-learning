@@ -15,6 +15,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
+import numpy as np
 import pandas as pd
 
 _DEFAULT_LOG = Path("outputs/experiments/runs.jsonl")
@@ -143,5 +144,6 @@ def best_run(
     if valid.empty:
         raise ValueError(f"no runs have a non-null value for metric {metric!r}.")
 
-    index = valid[column].idxmax() if mode == "max" else valid[column].idxmin()
-    return valid.loc[index]
+    values = valid[column].to_numpy()
+    position = int(np.argmax(values)) if mode == "max" else int(np.argmin(values))
+    return valid.iloc[position]

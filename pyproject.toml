@@ -1,30 +1,38 @@
-[tool.poetry]
+[project]
 name = "unsupervised-learning-lab"
 version = "0.1.0"
 description = "Notebook-first portfolio repository for applied unsupervised learning."
-authors = ["Diogo Ribeiro <hansolo.dj@gmail.com>"]
+authors = [{ name = "Diogo Ribeiro", email = "hansolo.dj@gmail.com" }]
 readme = "README.md"
-packages = [{ include = "unsup_lab", from = "src" }]
+requires-python = ">=3.10,<3.14"
+dependencies = [
+    "numpy>=1.26",
+    "pandas>=2.2",
+    "scipy>=1.12",
+    "scikit-learn>=1.5",
+    "matplotlib>=3.8",
+    "joblib>=1.4",
+    "pyyaml>=6.0,<7.0",
+    "jupyterlab>=4.2.0,<5.0.0",
+    "ipykernel>=6.29.0,<7.0.0",
+    "nbclient>=0.10.0,<0.11.0",
+    "nbformat>=5.10.0,<6.0.0",
+]
 
-[tool.poetry.scripts]
+[project.scripts]
 unsup-lab = "unsup_lab.cli:main"
 
-[tool.poetry.dependencies]
-python = ">=3.10,<3.14"
-numpy = ">=1.26"
-pandas = ">=2.2"
-scipy = ">=1.12"
-scikit-learn = ">=1.5"
-matplotlib = ">=3.8"
-pyyaml = "^6.0"
-jupyterlab = "^4.2.0"
-ipykernel = "^6.29.0"
-nbclient = "^0.10.0"
-nbformat = "^5.10.0"
+[tool.poetry]
+packages = [{ include = "unsup_lab", from = "src" }]
 
+# Dependency groups stay under [tool.poetry]: they are a Poetry concept, not
+# part of the PEP 621 [project] table, and `optional = true` keeps `api` and
+# `deep` out of a default `poetry install`.
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.2.0"
-ruff = "^0.5.0"
+# Pin the linters to the versions the quality gate is actually verified against;
+# a loose constraint let CI drift years behind local dev and fail unnoticed.
+ruff = ">=0.16,<0.17"
 mypy = "^1.10.0"
 pandas-stubs = "^2.2.0.240603"
 types-pyyaml = "^6.0"
@@ -50,12 +58,21 @@ build-backend = "poetry.core.masonry.api"
 [tool.ruff]
 line-length = 100
 target-version = "py310"
+# Declare the package root explicitly so `unsup_lab` is always classified as
+# first-party. Ruff's default inference for this changed across versions, which
+# silently broke the CI lint gate: locally-installed ruff kept the tests' import
+# blocks separate while CI's older ruff demanded they be merged.
+src = ["src"]
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "UP", "B", "SIM"]
 
 [tool.mypy]
-python_version = "3.10"
+# NumPy's bundled stubs now use PEP 695 `type` statements, which mypy cannot
+# parse when asked to target an older Python, so the analysis version tracks the
+# version CI runs on. Ruff's `target-version = "py310"` still holds our own code
+# to syntax valid on the lowest supported interpreter.
+python_version = "3.12"
 warn_unused_configs = true
 disallow_untyped_defs = true
 ignore_missing_imports = true

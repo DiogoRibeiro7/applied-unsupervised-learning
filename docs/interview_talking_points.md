@@ -59,7 +59,7 @@ recognisable.
 ## Engineering and productionisation
 
 **"How is this more than a pile of notebooks?"**
-The modelling logic lives in a typed, tested package (92 unit tests) behind a
+The modelling logic lives in a typed, tested package (175+ unit tests) behind a
 ruff + mypy + pytest + notebook-smoke CI gate. The same code backs a CLI, model
 artifacts with metadata, JSON reports, a FastAPI scoring service and a
 Dockerfile, so the path from research to a running endpoint is concrete.

@@ -35,10 +35,11 @@ flowchart LR
 
 ```mermaid
 flowchart LR
-    E[Event stream] --> W[Time-window features]
-    W --> SC[Score: IsolationForest /<br/>LOF / robust cov / PCA error]
-    SC --> T[Threshold / rank top-k]
-    T --> EX[Explain top anomalies]
+    E[Event stream] --> W[Scale sensor features]
+    W --> SC[Score: IsolationForest / LOF /<br/>robust cov / one-class SVM / PCA error]
+    SC --> RK[Rank-normalise<br/>then combine]
+    RK --> T[Rank top-k]
+    T --> EX[Review top anomalies]
     EX --> EV[Offline check:<br/>precision@k on hidden labels]
 ```
 

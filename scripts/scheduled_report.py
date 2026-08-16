@@ -37,9 +37,16 @@ def run_scheduled_report(config_path: str, output_dir: Path) -> Path:
     config = load_config(config_path)
     stamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
     output_dir.mkdir(parents=True, exist_ok=True)
-    report_path = output_dir / f"{config.task}_{stamp}.json"
     model_path = output_dir / f"{config.task}_{stamp}.joblib"
+    # The artifact writes its metadata sidecar next to the model as
+    # `<stem>.json`, so the run report must not claim that same name or it
+    # overwrites the sidecar and the saved model can no longer be loaded.
+    report_path = output_dir / f"{config.task}_{stamp}_report.json"
     track_path = output_dir / "runs.jsonl"
+
+    # `--random-state` is a top-level option, so it has to precede the
+    # subcommand; otherwise the seed in the config file is silently ignored.
+    seed_argv = ["--random-state", str(config.random_state)]
 
     if config.task == "clustering":
         argv = [
@@ -68,7 +75,7 @@ def run_scheduled_report(config_path: str, output_dir: Path) -> Path:
             "--track-path", str(track_path),
         ]
 
-    cli_main(argv)
+    cli_main(seed_argv + argv)
     print(f"Scheduled {config.task} report written to {report_path}")
     return report_path
 

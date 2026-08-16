@@ -6,12 +6,13 @@ The goal is not to show isolated algorithms. The goal is to show that unsupervis
 
 ## What this repo showcases
 
-- Clustering with KMeans, Gaussian Mixtures, DBSCAN, Agglomerative Clustering, and spectral-style workflows.
-- Dimensionality reduction with PCA, Kernel PCA, t-SNE-style discussion, Isomap, and practical embedding diagnostics.
-- Anomaly detection with Isolation Forest, Local Outlier Factor, robust covariance, reconstruction-style scores, and threshold calibration.
-- Unsupervised NLP with TF-IDF, NMF topic models, latent semantic analysis, and topic interpretation.
+- Clustering with KMeans, Gaussian Mixtures, DBSCAN, Agglomerative Clustering, consensus ensembles, and spectral community detection on graphs.
+- Dimensionality reduction with PCA, Kernel PCA, Isomap, Locally Linear Embedding, explained-variance diagnostics, and a note on when 2D separation misleads.
+- Anomaly detection with Isolation Forest, Local Outlier Factor, robust covariance, One-Class SVM, PCA reconstruction error, and precision-at-k ranking evaluation.
+- Unsupervised NLP with TF-IDF, NMF topic models, latent semantic analysis, coherence/diversity diagnostics, and four reproduced failure modes.
 - Recommender-style embeddings with matrix factorization and customer/product latent spaces.
-- Cluster validation using silhouette score, Davies-Bouldin, Calinski-Harabasz, bootstrap stability, and business-facing diagnostics.
+- Cluster validation using silhouette score, Davies-Bouldin, Calinski-Harabasz, bootstrap and seed stability, scaling/outlier sensitivity, and business-facing diagnostics.
+- Beyond the core: Dirichlet-process mixtures, DTW clustering, matrix profile, unsupervised shapelets, graph node embeddings, streaming drift monitoring, and deep clustering (optional PyTorch extra).
 - Notebook-first storytelling with reusable source code.
 
 ## Repository layout
@@ -62,8 +63,6 @@ unsupervised-learning-lab/
 ├── data/
 ├── outputs/
 ├── ROADMAP.md
-├── PROMPTS.md
-├── AGENTS.md
 └── pyproject.toml
 ```
 
