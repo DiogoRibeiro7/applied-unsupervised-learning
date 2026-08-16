@@ -1,8 +1,8 @@
 cff-version: 1.2.0
 message: "If you use this software, please cite it as below."
-title: "Unsupervised Learning Lab: a notebook-first study of applied unsupervised learning"
+title: "Applied Unsupervised Learning: reproducible workflows for label-free modelling"
 abstract: >-
-  A notebook-first laboratory for applied unsupervised learning: seventeen
+  A notebook-first applied unsupervised learning project: seventeen
   executed Jupyter notebooks covering segmentation, dimensionality reduction,
   anomaly detection, topic modelling, recommender embeddings, stability
   analysis, consensus and streaming clustering, nonparametric mixtures,
@@ -27,8 +27,8 @@ identifiers:
 # imply either license covers the whole work. The code is MIT; the notebooks
 # and documentation are CC BY 4.0. See LICENSE and LICENSE-CC-BY-4.0.txt.
 license: MIT
-repository-code: "https://github.com/DiogoRibeiro7/unsupervised-learning-lab"
-url: "https://github.com/DiogoRibeiro7/unsupervised-learning-lab"
+repository-code: "https://github.com/DiogoRibeiro7/applied-unsupervised-learning"
+url: "https://github.com/DiogoRibeiro7/applied-unsupervised-learning"
 keywords:
   - unsupervised learning
   - clustering

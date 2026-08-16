@@ -1,13 +1,13 @@
-# Unsupervised Learning Lab
+# Applied Unsupervised Learning
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21963335.svg)](https://doi.org/10.5281/zenodo.21963335)
-[![CI](https://github.com/DiogoRibeiro7/unsupervised-learning-lab/actions/workflows/ci.yml/badge.svg)](https://github.com/DiogoRibeiro7/unsupervised-learning-lab/actions/workflows/ci.yml)
+[![CI](https://github.com/DiogoRibeiro7/applied-unsupervised-learning/actions/workflows/ci.yml/badge.svg)](https://github.com/DiogoRibeiro7/applied-unsupervised-learning/actions/workflows/ci.yml)
 [![Python](https://img.shields.io/badge/python-3.10--3.13-blue.svg)](pyproject.toml)
 [![Code style: Ruff](https://img.shields.io/badge/code%20style-ruff-46a2f1.svg)](pyproject.toml)
 [![License: MIT](https://img.shields.io/badge/code%20license-MIT-blue.svg)](LICENSE)
 [![License: CC BY 4.0](https://img.shields.io/badge/docs%20license-CC%20BY%204.0-lightgrey.svg)](LICENSE-CC-BY-4.0.txt)
 
-A portfolio repository focused on **unsupervised learning**, designed around high-quality Jupyter notebooks with supporting production-style Python code.
+A notebook-first applied machine learning project focused on **unsupervised learning**, designed around high-quality Jupyter notebooks with supporting production-style Python code.
 
 The goal is not to show isolated algorithms. The goal is to show that unsupervised learning can be treated as a serious modelling workflow: data generation, representation learning, clustering, anomaly detection, topic discovery, recommender embeddings, model selection, stability analysis, interpretation, and deployment-minded reporting.
 
@@ -25,7 +25,7 @@ The goal is not to show isolated algorithms. The goal is to show that unsupervis
 ## Repository layout
 
 ```text
-unsupervised-learning-lab/
+applied-unsupervised-learning/
 ├── notebooks/
 │   ├── 00_project_overview.ipynb
 │   ├── 01_customer_segmentation_clustering.ipynb
@@ -60,7 +60,7 @@ unsupervised-learning-lab/
 │   ├── nlp.py             # topic-model cleaning, labels & diagnostics
 │   ├── service.py         # reusable clustering/anomaly/topic pipelines
 │   ├── artifacts.py       # model persistence with metadata
-│   ├── cli.py             # `unsup-lab` command line interface
+│   ├── cli.py             # `applied-unsupervised-learning` command line interface
 │   ├── api.py             # FastAPI scoring service
 │   ├── plotting.py
 │   ├── preprocessing.py
@@ -91,7 +91,7 @@ This repo uses Poetry.
 
 ```bash
 poetry install
-poetry run python -m ipykernel install --user --name unsup-lab
+poetry run python -m ipykernel install --user --name applied-unsupervised-learning
 poetry run jupyter lab
 ```
 
@@ -127,7 +127,7 @@ silently skipping.
 ## Project standards
 
 The repository includes the maintenance files expected for a professional open
-source or portfolio project:
+source or applied machine learning project:
 
 - [`CONTRIBUTING.md`](CONTRIBUTING.md) - setup, quality gate, contribution rules,
   and release checklist.
@@ -146,15 +146,15 @@ source or portfolio project:
 The notebooks stay the presentation layer; the same modelling code is also
 exposed through a thin CLI and API so the work can be operationalised.
 
-Command line interface (installed as `unsup-lab`):
+Command line interface (installed as `applied-unsupervised-learning`):
 
 ```bash
-poetry run unsup-lab generate-data --dataset customers --output data/customers.csv
-poetry run unsup-lab train-clustering --k 5      # saves model + JSON report under outputs/
-poetry run unsup-lab detect-anomalies            # precision@k against hidden labels
-poetry run unsup-lab build-topic-model --n-topics 4
-poetry run unsup-lab report --model outputs/models/clustering.joblib
-poetry run unsup-lab batch-score \
+poetry run applied-unsupervised-learning generate-data --dataset customers --output data/customers.csv
+poetry run applied-unsupervised-learning train-clustering --k 5      # saves model + JSON report under outputs/
+poetry run applied-unsupervised-learning detect-anomalies            # precision@k against hidden labels
+poetry run applied-unsupervised-learning build-topic-model --n-topics 4
+poetry run applied-unsupervised-learning report --model outputs/models/clustering.joblib
+poetry run applied-unsupervised-learning batch-score \
     --model outputs/models/clustering.joblib \
     --input data/customers.csv --output outputs/scored.csv
 ```
@@ -173,7 +173,7 @@ Each training command saves a joblib artifact plus a JSON metadata sidecar
   config and writes timestamped reports; point cron or Task Scheduler at it.
 
 ```bash
-poetry run unsup-lab train-clustering --k 5 --track-path outputs/experiments/runs.jsonl
+poetry run applied-unsupervised-learning train-clustering --k 5 --track-path outputs/experiments/runs.jsonl
 poetry run python scripts/scheduled_report.py --config configs/example_clustering.yaml
 ```
 
@@ -197,17 +197,17 @@ poetry install --with deep
 Container build (trains default models, then serves the API on port 8000):
 
 ```bash
-docker build -t unsup-lab .
-docker run -p 8000:8000 unsup-lab
+docker build -t applied-unsupervised-learning .
+docker run -p 8000:8000 applied-unsupervised-learning
 ```
 
-## Portfolio positioning
+## Professional positioning
 
 This project is useful for Senior Data Scientist, Machine Learning Scientist, Applied Scientist, and AI Engineer roles where unsupervised learning appears in customer segmentation, anomaly detection, product analytics, document mining, recommender systems, sensor analytics, fraud discovery, healthcare operations, or exploratory representation learning.
 
 For reviewers and hiring managers:
 
-- [`docs/portfolio_summary.md`](docs/portfolio_summary.md) - one-page overview with figures.
+- [`docs/project_summary.md`](docs/project_summary.md) - one-page project overview with figures.
 - [`docs/notebook_briefs.md`](docs/notebook_briefs.md) - a brief per notebook.
 - [`docs/interview_talking_points.md`](docs/interview_talking_points.md) - discussion prompts.
 - [`docs/cv_bullets.md`](docs/cv_bullets.md) and [`docs/linkedin_post.md`](docs/linkedin_post.md).
@@ -241,14 +241,14 @@ anything installed from a wheel is MIT in its entirety.
 Every release is archived on Zenodo. Cite the **concept DOI**, which always
 resolves to the most recent version:
 
-> Ribeiro, D. (2026). *Unsupervised Learning Lab: a notebook-first study of
-> applied unsupervised learning*. Zenodo. https://doi.org/10.5281/zenodo.21963335
+> Ribeiro, D. (2026). *Applied Unsupervised Learning: reproducible workflows
+> for label-free modelling*. Zenodo. https://doi.org/10.5281/zenodo.21963335
 
 ```bibtex
-@software{ribeiro_unsupervised_learning_lab,
+@software{ribeiro_applied_unsupervised_learning,
   author    = {Ribeiro, Diogo},
-  title     = {Unsupervised Learning Lab: a notebook-first study of
-               applied unsupervised learning},
+  title     = {Applied Unsupervised Learning: reproducible workflows
+               for label-free modelling},
   publisher = {Zenodo},
   year      = {2026},
   doi       = {10.5281/zenodo.21963335},

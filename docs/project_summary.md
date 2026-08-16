@@ -1,8 +1,8 @@
-# Portfolio Summary
+# Project Summary
 
-A notebook-first lab for **applied unsupervised learning**. The notebooks tell
-the modelling story; a typed, tested Python package (`src/unsup_lab`) keeps that
-story reproducible, and a thin CLI/API layer shows the same models can be
+A notebook-first project for **applied unsupervised learning**. The notebooks
+tell the modelling story; a typed, tested Python package (`src/unsup_lab`) keeps
+that story reproducible, and a thin CLI/API layer shows the same models can be
 operationalised.
 
 The emphasis throughout is on **modelling judgement** rather than algorithm
@@ -34,7 +34,7 @@ explicit about what unsupervised results can and cannot support.
   wired into GitHub Actions CI.
 - Deterministic synthetic data generators (fixed seeds) so every notebook is
   reproducible without private data.
-- A production layer: `unsup-lab` CLI, model artifacts with metadata, JSON
+- A production layer: `applied-unsupervised-learning` CLI, model artifacts with metadata, JSON
   reports, a FastAPI scoring service, and a Dockerfile.
 
 ## What it deliberately avoids

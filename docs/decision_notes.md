@@ -1,6 +1,6 @@
 # Decision Notes
 
-The modelling tradeoffs behind the lab, and why each call was made. These are
+The modelling tradeoffs behind the project, and why each call was made. These are
 the "why", not the "how" - the code and notebooks cover the how.
 
 ## Synthetic data instead of a real dataset
@@ -75,7 +75,7 @@ and can look high on random graphs, so it deserves a null-model sanity check.
 ## A lightweight JSON tracker instead of MLflow
 
 **Decision.** Append runs to a JSONL file; no tracking server.
-**Why.** MLflow is heavy for a portfolio lab and adds infrastructure. A JSONL log
+**Why.** MLflow is heavy for this project and adds infrastructure. A JSONL log
 gives parameter/metric comparison and an audit trail with zero dependencies.
 **Tradeoff.** No UI, no artifact store, no distributed runs - fine at this scale,
 and an obvious upgrade point if the work grew.

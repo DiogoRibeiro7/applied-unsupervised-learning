@@ -5,7 +5,7 @@ honest (they describe the repository, not a production deployment).
 
 ## Concise (one-liner)
 
-- Built a notebook-first unsupervised learning lab covering clustering, anomaly
+- Built a notebook-first applied unsupervised learning project covering clustering, anomaly
   detection, topic modelling, recommender embeddings and stability analysis,
   backed by a typed, tested Python package and CI.
 

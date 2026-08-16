@@ -1,4 +1,4 @@
-"""Reusable utilities for the unsupervised learning lab."""
+"""Reusable utilities for applied unsupervised learning workflows."""
 
 from unsup_lab.bayesian import (
     BayesianMixtureResult,
