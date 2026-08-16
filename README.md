@@ -106,7 +106,11 @@ poetry run python scripts/run_all_notebooks.py --only 00_project_overview.ipynb
 ```
 
 Continuous integration runs ruff, mypy, pytest, and a single-notebook smoke
-execution on every push and pull request (see `.github/workflows/ci.yml`).
+execution on every push and pull request (see `.github/workflows/ci.yml`). A
+second job covers `unsup_lab.deep`, installing the CPU build of the PyTorch
+version the lock pins - 190 MB rather than the ~2.5 GB of CUDA packages the
+default wheel brings - so the deep-clustering tests run for real instead of
+silently skipping.
 
 ## Production layer
 
