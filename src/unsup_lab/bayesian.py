@@ -1,6 +1,6 @@
 """Bayesian nonparametric clustering with Dirichlet-process mixtures.
 
-Most clustering in this lab asks the analyst to choose the number of clusters
+Most clustering in this project asks the analyst to choose the number of clusters
 ``k`` up front. A Dirichlet-process Gaussian mixture turns that around: you give
 it a generous upper bound on components and the variational prior drives the
 weight of the components it does not need toward zero, so the *effective* number

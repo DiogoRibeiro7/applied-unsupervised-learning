@@ -1,7 +1,7 @@
 """Minimal FastAPI service for cluster assignment and anomaly scoring.
 
-The service loads model artifacts produced by the CLI (``unsup-lab
-train-clustering`` / ``unsup-lab detect-anomalies``) and exposes them over HTTP.
+The service loads model artifacts produced by the CLI (``applied-unsupervised-learning
+train-clustering`` / ``applied-unsupervised-learning detect-anomalies``) and exposes them over HTTP.
 Model paths are configured through the ``UNSUP_LAB_MODEL_DIR`` environment
 variable and resolved lazily, so the app starts even before models are trained
 and returns a clear error if a model is requested before it exists.
@@ -25,7 +25,7 @@ from pydantic import BaseModel, Field
 from unsup_lab.artifacts import load_artifact
 from unsup_lab.service import anomaly_scores, assign_clusters
 
-app = FastAPI(title="Unsupervised Learning Lab", version="0.1.0")
+app = FastAPI(title="Applied Unsupervised Learning", version="0.1.0")
 
 
 def _model_dir() -> Path:

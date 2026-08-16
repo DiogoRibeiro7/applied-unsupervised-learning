@@ -1,6 +1,6 @@
 # Contributing
 
-Thank you for improving Unsupervised Learning Lab. This repository is notebook-first:
+Thank you for improving Applied Unsupervised Learning. This repository is notebook-first:
 the notebooks tell the modelling story, and `src/unsup_lab` keeps reusable logic
 tested and reproducible.
 
@@ -10,7 +10,7 @@ Install dependencies with Poetry:
 
 ```bash
 poetry install --with api
-poetry run python -m ipykernel install --user --name unsup-lab
+poetry run python -m ipykernel install --user --name applied-unsupervised-learning
 ```
 
 Install the optional deep-learning group only when working on notebook 15 or

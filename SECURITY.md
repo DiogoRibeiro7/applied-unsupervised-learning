@@ -2,7 +2,7 @@
 
 ## Supported versions
 
-This is a portfolio and research repository. Security fixes are applied to the
+This is a research and applied machine learning repository. Security fixes are applied to the
 default branch and to the latest tagged release when practical.
 
 ## Reporting a vulnerability

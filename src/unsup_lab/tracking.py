@@ -1,7 +1,7 @@
 """A lightweight, dependency-free experiment tracker.
 
-Full tracking systems (MLflow, Weights & Biases) are overkill for a portfolio
-lab and add heavy dependencies. This module records each run as one JSON line in
+Full tracking systems (MLflow, Weights & Biases) are overkill for this project
+and add heavy dependencies. This module records each run as one JSON line in
 an append-only log, which is enough to compare parameters and metrics across
 runs, find the best run, and keep an audit trail - using only the standard
 library.

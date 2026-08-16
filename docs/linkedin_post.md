@@ -5,7 +5,7 @@ hashtags to taste.
 
 ---
 
-I just published an **Unsupervised Learning Lab** - a notebook-first portfolio
+I just published an **Applied Unsupervised Learning** - a notebook-first applied machine learning project
 that treats unsupervised learning as a serious modelling workflow rather than a
 gallery of algorithms.
 

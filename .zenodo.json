@@ -2,7 +2,7 @@
   "upload_type": "software",
   "access_right": "open",
   "license": "mit",
-  "title": "Unsupervised Learning Lab: a notebook-first study of applied unsupervised learning",
+  "title": "Applied Unsupervised Learning: reproducible workflows for label-free modelling",
   "version": "0.1.0",
   "creators": [
     {
@@ -11,7 +11,7 @@
       "affiliation": "ESMAD - Escola Superior de Media Arte e Design, Instituto Politecnico do Porto"
     }
   ],
-  "description": "<p>A notebook-first laboratory for applied unsupervised learning, built around the argument that unsupervised methods deserve the same discipline as supervised ones: deliberate choice of assumptions, evaluation without labels, and honesty about what a label-free result can support.</p><p>Seventeen executed Jupyter notebooks cover customer segmentation, dimensionality reduction and manifold learning, anomaly detection, topic modelling, recommender embeddings, model selection and stability, consensus clustering, streaming clustering with drift monitoring, Dirichlet-process mixtures, dynamic time warping, matrix profiles, unsupervised shapelets, graph community detection and node anomalies, and deep clustering (autoencoder, DEC and contrastive).</p><p>They are supported by <code>unsup_lab</code>, a typed and tested Python package providing the reusable machinery: deterministic synthetic data generators, internal clustering metrics, bootstrap and seed stability analysis, and a production layer of CLI, versioned model artifacts, a FastAPI scoring service and a Dockerfile. Every notebook is reproducible from fixed seeds without private data, and the package is held to a ruff, mypy and pytest gate in continuous integration.</p><p>Licensing is split by content type: the code under <code>src/</code>, <code>scripts/</code> and <code>tests/</code> is released under the MIT License, while the notebooks and prose documentation are released under CC BY 4.0.</p>",
+  "description": "<p>A notebook-first applied unsupervised learning project, built around the argument that unsupervised methods deserve the same discipline as supervised ones: deliberate choice of assumptions, evaluation without labels, and honesty about what a label-free result can support.</p><p>Seventeen executed Jupyter notebooks cover customer segmentation, dimensionality reduction and manifold learning, anomaly detection, topic modelling, recommender embeddings, model selection and stability, consensus clustering, streaming clustering with drift monitoring, Dirichlet-process mixtures, dynamic time warping, matrix profiles, unsupervised shapelets, graph community detection and node anomalies, and deep clustering (autoencoder, DEC and contrastive).</p><p>They are supported by <code>unsup_lab</code>, a typed and tested Python package providing the reusable machinery: deterministic synthetic data generators, internal clustering metrics, bootstrap and seed stability analysis, and a production layer of CLI, versioned model artifacts, a FastAPI scoring service and a Dockerfile. Every notebook is reproducible from fixed seeds without private data, and the package is held to a ruff, mypy and pytest gate in continuous integration.</p><p>Licensing is split by content type: the code under <code>src/</code>, <code>scripts/</code> and <code>tests/</code> is released under the MIT License, while the notebooks and prose documentation are released under CC BY 4.0.</p>",
   "keywords": [
     "unsupervised learning",
     "clustering",

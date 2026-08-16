@@ -5,7 +5,7 @@ clustering the raw features struggles. An autoencoder learns a compact
 representation by reconstructing its input through a bottleneck; clustering that
 bottleneck embedding can recover structure the raw space hides.
 
-This is the one place in the lab that uses a deep-learning dependency. PyTorch
+This is the one place in the project that uses a deep-learning dependency. PyTorch
 is an *optional* extra (``poetry install --with deep``); the rest of the package
 never imports this module, so the core install stays light. The autoencoder here
 is deliberately small and trained full-batch for reproducibility - the point is

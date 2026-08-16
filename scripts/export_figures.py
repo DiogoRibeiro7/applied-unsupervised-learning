@@ -1,10 +1,10 @@
-"""Export key portfolio figures to ``outputs/figures`` as PNG screenshots.
+"""Export key project figures to ``outputs/figures`` as PNG screenshots.
 
 Run with::
 
     python scripts/export_figures.py
 
-The figures are deterministic (fixed seeds) and are used in the portfolio
+The figures are deterministic (fixed seeds) and are used in the project summary
 documentation. Uses a non-interactive backend so it runs headless / in CI.
 """
 
@@ -104,7 +104,7 @@ def figure_drift() -> None:
 
 
 def main() -> None:
-    """Generate every portfolio figure."""
+    """Generate every project summary figure."""
     figure_segments()
     figure_consensus()
     figure_drift()

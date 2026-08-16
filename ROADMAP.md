@@ -1,6 +1,6 @@
 # Ambitious Roadmap
 
-This roadmap is designed to turn the repository from a notebook portfolio into a mature applied unsupervised learning lab.
+This roadmap is designed to turn the repository from a notebook project into a mature applied unsupervised learning project.
 
 ## Phase 0 — Foundation
 
@@ -144,12 +144,12 @@ This roadmap is designed to turn the repository from a notebook portfolio into a
 
 - [x] Package reusable pipelines under `src/unsup_lab`.
 - [x] Add a CLI:
-  - `unsup-lab generate-data`
-  - `unsup-lab train-clustering`
-  - `unsup-lab detect-anomalies`
-  - `unsup-lab build-topic-model`
-  - `unsup-lab report`
-  - `unsup-lab batch-score`
+  - `applied-unsupervised-learning generate-data`
+  - `applied-unsupervised-learning train-clustering`
+  - `applied-unsupervised-learning detect-anomalies`
+  - `applied-unsupervised-learning build-topic-model`
+  - `applied-unsupervised-learning report`
+  - `applied-unsupervised-learning batch-score`
 - [x] Add model artifact saving with metadata.
 - [x] Add experiment tracking with MLflow or a lightweight local JSON tracker.
 - [x] Add configuration with YAML.
@@ -189,11 +189,11 @@ This roadmap is designed to turn the repository from a notebook portfolio into a
 
 ---
 
-## Phase 6 — Communication and Portfolio Polish
+## Phase 6 — Communication and Professional Polish
 
 **Goal:** Make the repository readable and convincing.
 
-- [x] Add a short portfolio landing page in `docs/`.
+- [x] Add a short project summary page in `docs/`.
 - [x] Add one-page executive summaries for each case study.
 - [x] Add diagrams for each modelling workflow.
 - [x] Add “decision notes” explaining modelling tradeoffs.
@@ -203,7 +203,7 @@ This roadmap is designed to turn the repository from a notebook portfolio into a
 
 ## Final target
 
-The completed project should feel like a serious internal data science lab for unsupervised learning, not a collection of toy notebooks. It should show:
+The completed project should feel like serious internal data science work for unsupervised learning, not a collection of toy notebooks. It should show:
 
 - mathematical understanding,
 - modelling judgement,

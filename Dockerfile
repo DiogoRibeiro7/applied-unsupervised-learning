@@ -1,4 +1,4 @@
-# Minimal image for the unsupervised-learning-lab API and CLI.
+# Minimal image for the applied-unsupervised-learning API and CLI.
 FROM python:3.12-slim
 
 ENV PYTHONUNBUFFERED=1 \
@@ -18,7 +18,7 @@ COPY src ./src
 RUN poetry install --only main,api --no-interaction
 
 # Train default models so the API has something to serve out of the box.
-RUN unsup-lab train-clustering && unsup-lab detect-anomalies
+RUN applied-unsupervised-learning train-clustering && applied-unsupervised-learning detect-anomalies
 
 EXPOSE 8000
 

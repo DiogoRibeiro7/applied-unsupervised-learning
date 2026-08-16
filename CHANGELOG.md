@@ -19,7 +19,7 @@ This project follows a practical versioning policy:
 
 ### Added
 
-- Notebook-first unsupervised learning portfolio covering clustering,
+- Notebook-first unsupervised learning project covering clustering,
   dimensionality reduction, anomaly detection, topic modelling, recommender
   embeddings, stability analysis, graph methods, streaming drift, time series,
   shapelets, and deep clustering.

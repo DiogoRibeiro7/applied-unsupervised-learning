@@ -1,7 +1,7 @@
 [project]
-name = "unsupervised-learning-lab"
+name = "applied-unsupervised-learning"
 version = "0.1.0"
-description = "Notebook-first portfolio for applied unsupervised learning with reproducible experiments and tested Python utilities."
+description = "Notebook-first applied unsupervised learning workflows with reproducible experiments and tested Python utilities."
 authors = [{ name = "Diogo Ribeiro", email = "hansolo.dj@gmail.com" }]
 readme = "README.md"
 # The built distribution contains only src/unsup_lab, so the wheel is MIT in
@@ -48,14 +48,14 @@ dependencies = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/DiogoRibeiro7/unsupervised-learning-lab"
-Repository = "https://github.com/DiogoRibeiro7/unsupervised-learning-lab"
-Documentation = "https://github.com/DiogoRibeiro7/unsupervised-learning-lab/tree/main/docs"
-Issues = "https://github.com/DiogoRibeiro7/unsupervised-learning-lab/issues"
-Changelog = "https://github.com/DiogoRibeiro7/unsupervised-learning-lab/blob/main/CHANGELOG.md"
+Homepage = "https://github.com/DiogoRibeiro7/applied-unsupervised-learning"
+Repository = "https://github.com/DiogoRibeiro7/applied-unsupervised-learning"
+Documentation = "https://github.com/DiogoRibeiro7/applied-unsupervised-learning/tree/main/docs"
+Issues = "https://github.com/DiogoRibeiro7/applied-unsupervised-learning/issues"
+Changelog = "https://github.com/DiogoRibeiro7/applied-unsupervised-learning/blob/main/CHANGELOG.md"
 
 [project.scripts]
-unsup-lab = "unsup_lab.cli:main"
+applied-unsupervised-learning = "unsup_lab.cli:main"
 
 [tool.poetry]
 packages = [{ include = "unsup_lab", from = "src" }]

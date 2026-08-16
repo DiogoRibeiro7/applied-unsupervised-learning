@@ -8,7 +8,7 @@ call that matters most.
 
 ## 00 - Project Overview
 
-**Question.** What is this lab and how should a reviewer read it?
+**Question.** What is this project and how should a reviewer read it?
 
 **Approach.** A short orientation notebook: the philosophy (notebook-first,
 label-free, reproducible), the repository map, and how the pieces connect.

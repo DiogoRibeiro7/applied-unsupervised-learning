@@ -1,4 +1,4 @@
-"""Command line interface for the unsupervised learning lab.
+"""Command line interface for the applied unsupervised learning project.
 
 The CLI operationalises the notebook workflows: it generates synthetic data,
 trains clustering / anomaly / topic models, saves versioned artifacts with
@@ -9,11 +9,12 @@ Examples
 --------
 ::
 
-    unsup-lab generate-data --dataset customers --output data/customers.csv
-    unsup-lab train-clustering --k 5 --model-out outputs/models/clustering.joblib
-    unsup-lab detect-anomalies --model-out outputs/models/anomaly.joblib
-    unsup-lab build-topic-model --n-topics 4
-    unsup-lab report --model outputs/models/clustering.joblib
+    applied-unsupervised-learning generate-data --dataset customers --output data/customers.csv
+    applied-unsupervised-learning train-clustering --k 5 \
+        --model-out outputs/models/clustering.joblib
+    applied-unsupervised-learning detect-anomalies --model-out outputs/models/anomaly.joblib
+    applied-unsupervised-learning build-topic-model --n-topics 4
+    applied-unsupervised-learning report --model outputs/models/clustering.joblib
 """
 
 from __future__ import annotations
@@ -215,7 +216,7 @@ def cmd_batch_score(args: argparse.Namespace) -> None:
 
 def build_parser() -> argparse.ArgumentParser:
     """Construct the argument parser for the CLI."""
-    parser = argparse.ArgumentParser(prog="unsup-lab", description=__doc__)
+    parser = argparse.ArgumentParser(prog="applied-unsupervised-learning", description=__doc__)
     parser.add_argument("--random-state", type=int, default=42, help="Global random seed.")
     sub = parser.add_subparsers(dest="command", required=True)
 
@@ -265,7 +266,7 @@ def build_parser() -> argparse.ArgumentParser:
 
 
 def main(argv: list[str] | None = None) -> int:
-    """Entry point for the ``unsup-lab`` console script."""
+    """Entry point for the ``applied-unsupervised-learning`` console script."""
     parser = build_parser()
     args = parser.parse_args(argv)
     args.func(args)

@@ -1,6 +1,6 @@
 # Modelling Workflows
 
-Diagrams of the workflows used across the lab. They render natively on GitHub
+Diagrams of the workflows used across the project. They render natively on GitHub
 (Mermaid). The first is the shared backbone; the rest specialise it per family.
 
 ## The shared unsupervised workflow
