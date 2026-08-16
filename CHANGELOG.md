@@ -10,10 +10,12 @@ This project follows a practical versioning policy:
 
 ## Unreleased
 
-## 0.2.1 - 2026-08-16
-
-Documentation and archival metadata only; no source, notebook or dependency
-changes, so the modelling results are identical to 0.2.0.
+Documentation and archival metadata only so far; no source, notebook or
+dependency changes, so the modelling results are still those of 0.2.0. These
+ship with the next release rather than as a release of their own, so that its
+DOI marks substantive modelling work and not documentation alone. Note that the
+enriched Zenodo fields below reach an archived record only when that release is
+published, since Zenodo reads `.zenodo.json` at deposit time.
 
 ### Added
 
