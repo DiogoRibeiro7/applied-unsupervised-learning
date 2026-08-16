@@ -35,7 +35,8 @@ This roadmap is designed to turn the repository from a notebook project into a m
   - [ ] HDBSCAN, optional dependency
   - [x] Spectral Clustering (on graphs, `unsup_lab.graphs`; not yet in the tabular comparison)
 - [x] Add cluster profiling tables.
-- [ ] Add automatic cluster naming based on feature summaries.
+- [x] Add automatic cluster naming based on feature summaries. (`unsup_lab.explain.name_clusters`;
+      offline check in notebook 01 recovers every planted persona at purity 1.000.)
 - [x] Compare compact, density-based, hierarchical, and probabilistic cluster assumptions.
 - [x] Add failure-case examples where each method performs poorly. (Notebook 01: four diagnostic
       geometries scored against five candidates, each of which wins somewhere and fails somewhere.)
@@ -80,8 +81,12 @@ This roadmap is designed to turn the repository from a notebook project into a m
 - [x] Simulate customer behaviour with latent personas.
 - [x] Add RFM features, product affinity, price sensitivity, churn-risk proxies, and campaign response features.
 - [x] Build segmentation pipelines.
-- [ ] Produce persona cards.
-- [ ] Add recommended business actions per segment.
+- [x] Produce persona cards. (`unsup_lab.explain.persona_cards`: size, distinguishing features
+      with deviations, and real example members, rendered in notebook 01.)
+- [ ] Add recommended business actions per segment. (Deliberately not generated from the data:
+      the cards carry the evidence and leave the action to a domain owner, because the margin,
+      the team's capacity and last quarter's campaigns are not in the feature table. Filling
+      this in needs a domain expert, not another function.)
 
 ### Case Study 2 — Sensor Anomaly Discovery
 
@@ -127,8 +132,9 @@ This roadmap is designed to turn the repository from a notebook project into a m
 - [x] Add consensus clustering.
 - [x] Add uncertainty estimates for soft clustering.
 - [ ] Add cluster transition analysis under data drift.
-- [ ] Add explainability using feature distributions, centroids, SHAP-style surrogate models, and local examples.
-      (Cluster profiling tables exist; surrogate models and local examples do not.)
+- [x] Add explainability using feature distributions, centroids, SHAP-style surrogate models, and local examples.
+      (`unsup_lab.explain`: a depth-limited surrogate tree that reports its own fidelity to the
+      partition, per-cluster feature deviations, exemplars, and boundary members.)
 
 **Success criteria**
 
