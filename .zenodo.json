@@ -2,6 +2,7 @@
   "upload_type": "software",
   "access_right": "open",
   "license": "mit",
+  "language": "eng",
   "title": "Applied Unsupervised Learning: reproducible workflows for label-free modelling",
   "version": "0.2.0",
   "creators": [
@@ -11,7 +12,8 @@
       "affiliation": "ESMAD - Escola Superior de Media Arte e Design, Instituto Politecnico do Porto"
     }
   ],
-  "description": "<p>A notebook-first applied unsupervised learning project, built around the argument that unsupervised methods deserve the same discipline as supervised ones: deliberate choice of assumptions, evaluation without labels, and honesty about what a label-free result can support.</p><p>Seventeen executed Jupyter notebooks cover customer segmentation, dimensionality reduction and manifold learning, anomaly detection, topic modelling, recommender embeddings, model selection and stability, consensus clustering, streaming clustering with drift monitoring, Dirichlet-process mixtures, dynamic time warping, matrix profiles, unsupervised shapelets, graph community detection and node anomalies, and deep clustering (autoencoder, DEC and contrastive).</p><p>They are supported by <code>unsup_lab</code>, a typed and tested Python package providing the reusable machinery: deterministic synthetic data generators, internal clustering metrics, bootstrap and seed stability analysis, and a production layer of CLI, versioned model artifacts, a FastAPI scoring service and a Dockerfile. Every notebook is reproducible from fixed seeds without private data, and the package is held to a ruff, mypy and pytest gate in continuous integration.</p><p>Licensing is split by content type: the code under <code>src/</code>, <code>scripts/</code> and <code>tests/</code> is released under the MIT License, while the notebooks and prose documentation are released under CC BY 4.0.</p>",
+  "description": "<p>A notebook-first applied unsupervised learning project, built around the argument that unsupervised methods deserve the same discipline as supervised ones: deliberate choice of assumptions, evaluation without labels, and honesty about what a label-free result can support.</p><p>Seventeen executed Jupyter notebooks cover customer segmentation, dimensionality reduction and manifold learning, anomaly detection, topic modelling, recommender embeddings, model selection and stability, consensus clustering, streaming clustering with drift monitoring, Dirichlet-process mixtures, dynamic time warping, matrix profiles, unsupervised shapelets, graph community detection and node anomalies, and deep clustering (autoencoder, DEC and contrastive).</p><p>They are supported by <code>unsup_lab</code>, a typed and tested Python package providing the reusable machinery: deterministic synthetic data generators, internal clustering metrics, bootstrap and seed stability analysis, and a production layer of CLI, versioned model artifacts, a FastAPI scoring service and a Dockerfile. Every notebook is reproducible from fixed seeds without private data, and the package is held to a ruff, mypy and pytest gate in continuous integration.</p><p>The work reports negative results alongside positive ones, because they carry the argument: three clustering algorithms returning an identical partition on well-separated data (so the comparison cannot judge them), an anomaly-detector ensemble that turns out to be a single detector in disguise once the scores are put on a common footing, and a reconstruction autoencoder that barely improves on clustering the raw features.</p><p>Licensing is split by content type: the code under <code>src/</code>, <code>scripts/</code> and <code>tests/</code> is released under the MIT License, while the notebooks and prose documentation are released under CC BY 4.0.</p>",
+  "notes": "<p>Version 0.1.0 of this record was deposited under the project's former name, Unsupervised Learning Lab. The concept DOI resolves across the rename, so citations of it remain valid.</p><p>Each notebook is archived with its executed outputs, and every figure and reported number regenerates from fixed seeds without private data. The package is verified on each change by a continuous-integration gate of ruff, mypy and pytest; the PyTorch-dependent deep-clustering tests run against the exact version pinned in <code>poetry.lock</code>. Dependencies are locked across the supported Python range (3.10 to 3.13).</p>",
   "keywords": [
     "unsupervised learning",
     "clustering",
@@ -22,8 +24,36 @@
     "graph learning",
     "representation learning",
     "cluster stability",
+    "model selection",
     "reproducible research",
+    "DBSCAN",
+    "Gaussian mixture models",
+    "dynamic time warping",
+    "matrix profile",
+    "shapelets",
+    "Dirichlet process",
+    "deep embedded clustering",
+    "contrastive learning",
+    "concept drift",
+    "non-negative matrix factorization",
     "scikit-learn",
+    "Jupyter notebooks",
     "Python"
+  ],
+  "references": [
+    "Rousseeuw, P. J. (1987). Silhouettes: a graphical aid to the interpretation and validation of cluster analysis. Journal of Computational and Applied Mathematics, 20, 53-65.",
+    "Ester, M., Kriegel, H.-P., Sander, J., & Xu, X. (1996). A density-based algorithm for discovering clusters in large spatial databases with noise. Proceedings of KDD-96.",
+    "Breunig, M. M., Kriegel, H.-P., Ng, R. T., & Sander, J. (2000). LOF: identifying density-based local outliers. Proceedings of ACM SIGMOD 2000.",
+    "Liu, F. T., Ting, K. M., & Zhou, Z.-H. (2008). Isolation Forest. Proceedings of IEEE ICDM 2008.",
+    "Fred, A. L. N., & Jain, A. K. (2005). Combining multiple clusterings using evidence accumulation. IEEE Transactions on Pattern Analysis and Machine Intelligence, 27(6), 835-850.",
+    "Newman, M. E. J. (2006). Modularity and community structure in networks. Proceedings of the National Academy of Sciences, 103(23), 8577-8582.",
+    "Blei, D. M., & Jordan, M. I. (2006). Variational inference for Dirichlet process mixtures. Bayesian Analysis, 1(1), 121-143.",
+    "Mimno, D., Wallach, H. M., Talley, E., Leenders, M., & McCallum, A. (2011). Optimizing semantic coherence in topic models. Proceedings of EMNLP 2011.",
+    "Sakoe, H., & Chiba, S. (1978). Dynamic programming algorithm optimization for spoken word recognition. IEEE Transactions on Acoustics, Speech, and Signal Processing, 26(1), 43-49.",
+    "Yeh, C.-C. M., Zhu, Y., Ulanova, L., Begum, N., Ding, Y., Dau, H. A., Silva, D. F., Mueen, A., & Keogh, E. (2016). Matrix Profile I: all pairs similarity joins for time series. Proceedings of IEEE ICDM 2016.",
+    "Zakaria, J., Mueen, A., & Keogh, E. (2012). Clustering time series using unsupervised-shapelets. Proceedings of IEEE ICDM 2012, 785-794.",
+    "Xie, J., Girshick, R., & Farhadi, A. (2016). Unsupervised deep embedding for clustering analysis. Proceedings of ICML 2016.",
+    "Chen, T., Kornblith, S., Norouzi, M., & Hinton, G. (2020). A simple framework for contrastive learning of visual representations. Proceedings of ICML 2020.",
+    "Pedregosa, F., et al. (2011). Scikit-learn: machine learning in Python. Journal of Machine Learning Research, 12, 2825-2830."
   ]
 }

@@ -11,6 +11,23 @@ A notebook-first applied machine learning project focused on **unsupervised lear
 
 The goal is not to show isolated algorithms. The goal is to show that unsupervised learning can be treated as a serious modelling workflow: data generation, representation learning, clustering, anomaly detection, topic discovery, recommender embeddings, model selection, stability analysis, interpretation, and deployment-minded reporting.
 
+**Contents** — [Findings](#what-the-notebooks-found) · [Coverage](#what-this-repo-showcases) · [Layout](#repository-layout) · [Getting started](#getting-started) · [Production layer](#production-layer) · [For reviewers](#professional-positioning) · [License](#license) · [Citation](#citation)
+
+## What the notebooks found
+
+Results, not features. Every number below comes from the executed notebook stored in this repository, and the list deliberately includes the results that did **not** flatter the method:
+
+| Finding | Where |
+| --- | --- |
+| KMeans, the Gaussian mixture and Ward return the **identical partition** (ARI 1.000, same cluster sizes) on the customer data. The segments are so well separated that the algorithm choice cannot be judged there at all — so four diagnostic geometries show where each assumption actually breaks. | [01](notebooks/01_customer_segmentation_clustering.ipynb) |
+| Averaging five anomaly detectors' raw scores is **not an ensemble**: the mean correlates 1.00 with robust covariance alone, whose scale swamps the other four. Rank-normalised so they vote equally, the honest ensemble scores 0.24 against 1.00 for the best single detector. | [03](notebooks/03_anomaly_detection_sensor_events.ipynb) |
+| A Dirichlet-process mixture infers **5 components from a ceiling of 15** — the same answer a manual silhouette sweep gives, without the sweep. | [09](notebooks/09_bayesian_nonparametric_mixtures.ipynb) |
+| DTW clustering recovers phase-shifted shape families at **ARI 1.000**; point-by-point Euclidean distance manages 0.589 on the same series. | [10](notebooks/10_time_series_dtw_clustering.ipynb) |
+| The matrix profile flags an injected shape anomaly with a profile value of **8.31 against a median of 0.53** — while the largest absolute z-score anywhere inside that anomaly is 0.17, so a point-wise detector sees nothing whatsoever. | [12](notebooks/12_matrix_profile_motifs_discords.ipynb) |
+| An unsupervised shapelet separates the hidden classes at **ARI 1.000**; whole-series KMeans gets 0.225, because the discriminating pattern moves between series. | [14](notebooks/14_unsupervised_shapelets.ipynb) |
+| On non-linearly tangled, noisy data: **DEC 0.928**, contrastive 0.893, plain autoencoder 0.869, raw KMeans 0.865, PCA 0.858. A reconstruction autoencoder is no free lunch — it barely beats the raw baseline. | [15](notebooks/15_deep_clustering_autoencoder_dec.ipynb) |
+| Single-pass streaming clustering holds **AMI 0.742** against a full-batch fit while flagging every drifted batch, at a fraction of the memory. | [08](notebooks/08_streaming_clustering_drift.ipynb) |
+
 ## What this repo showcases
 
 - Clustering with KMeans, Gaussian Mixtures, DBSCAN, Agglomerative Clustering, consensus ensembles, and spectral community detection on graphs.
@@ -65,14 +82,21 @@ applied-unsupervised-learning/
 │   ├── plotting.py
 │   ├── preprocessing.py
 │   └── reporting.py
+├── scripts/               # notebook runner, figure export, scheduled report
+├── configs/               # example YAML run configuration
 ├── tests/
 ├── docs/
 ├── data/
-├── outputs/
+├── outputs/               # figures, reports, models, experiment log
 ├── CONTRIBUTING.md
 ├── SECURITY.md
 ├── CHANGELOG.md
 ├── ROADMAP.md
+├── CITATION.cff           # citation metadata (GitHub + Zenodo)
+├── .zenodo.json           # deposit metadata for release archiving
+├── LICENSE                # MIT, for the code
+├── LICENSE-CC-BY-4.0.txt  # CC BY 4.0, for notebooks and prose
+├── poetry.lock
 └── pyproject.toml
 ```
 
