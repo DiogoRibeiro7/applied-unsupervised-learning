@@ -30,10 +30,17 @@ Davies-Bouldin and Calinski-Harabasz; profile and name each segment; recommend
 concrete actions.
 
 **Result.** Compact, interpretable segments with business-facing names and
-recommended actions, validated by internal metrics rather than labels.
+recommended actions, validated by internal metrics rather than labels - plus the
+uncomfortable finding that KMeans, the Gaussian mixture and Ward agglomerative
+return *the identical partition* here (ARI 1.000), because the generator plants
+well-separated spherical blobs. A second section puts the same five candidates
+on four diagnostic geometries where the assumptions do bite, and each one wins
+somewhere and fails somewhere.
 
 **Judgement.** Different algorithms encode different cluster shapes; the choice
-is a modelling assumption, and the segments are decision aids, not facts.
+is a modelling assumption, and the segments are decision aids, not facts. Where
+methods agree, check whether that is evidence about the methods or merely a
+property of convenient data - here it is the latter.
 
 ---
 

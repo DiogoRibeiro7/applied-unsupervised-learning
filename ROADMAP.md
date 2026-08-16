@@ -37,7 +37,8 @@ This roadmap is designed to turn the repository from a notebook portfolio into a
 - [x] Add cluster profiling tables.
 - [ ] Add automatic cluster naming based on feature summaries.
 - [x] Compare compact, density-based, hierarchical, and probabilistic cluster assumptions.
-- [ ] Add failure-case examples where each method performs poorly.
+- [x] Add failure-case examples where each method performs poorly. (Notebook 01: four diagnostic
+      geometries scored against five candidates, each of which wins somewhere and fails somewhere.)
 
 ### Dimensionality reduction
 
