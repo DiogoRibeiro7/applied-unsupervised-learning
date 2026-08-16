@@ -1,6 +1,6 @@
 [project]
 name = "applied-unsupervised-learning"
-version = "0.2.0"
+version = "0.2.1"
 description = "Notebook-first applied unsupervised learning workflows with reproducible experiments and tested Python utilities."
 authors = [{ name = "Diogo Ribeiro", email = "hansolo.dj@gmail.com" }]
 readme = "README.md"

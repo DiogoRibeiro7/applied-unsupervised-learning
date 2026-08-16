@@ -10,6 +10,26 @@ This project follows a practical versioning policy:
 
 ## Unreleased
 
+## 0.2.1 - 2026-08-16
+
+Documentation and archival metadata only; no source, notebook or dependency
+changes, so the modelling results are identical to 0.2.0.
+
+### Added
+
+- README now opens with the results the notebooks produced, including the ones
+  that do not flatter the method, each figure taken from stored notebook output.
+- Zenodo deposit records `language`, explanatory `notes` covering the project
+  rename, and `references` crediting the fourteen primary sources the notebooks
+  implement. Keywords expanded from 12 to 24.
+- Version DOIs for 0.1.0 and 0.2.0 recorded in the README and `CITATION.cff`
+  alongside the concept DOI.
+
+### Changed
+
+- README gained a contents line, and its layout tree now lists `scripts/`,
+  `configs/`, both licence files, the citation metadata and the lock file.
+
 ## 0.2.0 - 2026-08-16
 
 ### Added
