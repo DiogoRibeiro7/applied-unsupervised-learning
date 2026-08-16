@@ -65,7 +65,12 @@ def test_distinctive_features_finds_the_planted_separation() -> None:
     table = distinctive_features(features, labels, n_features=2)
 
     assert list(table.columns) == [
-        "cluster", "feature", "cluster_mean", "overall_mean", "deviation", "direction",
+        "cluster",
+        "feature",
+        "cluster_mean",
+        "overall_mean",
+        "deviation",
+        "direction",
     ]
     top = table[table["cluster"] == 0].iloc[0]
     assert top["direction"] == "high"  # cluster 0 has the highest spend
