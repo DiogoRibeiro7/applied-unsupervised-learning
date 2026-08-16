@@ -2,6 +2,8 @@
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21963335.svg)](https://doi.org/10.5281/zenodo.21963335)
 [![CI](https://github.com/DiogoRibeiro7/unsupervised-learning-lab/actions/workflows/ci.yml/badge.svg)](https://github.com/DiogoRibeiro7/unsupervised-learning-lab/actions/workflows/ci.yml)
+[![Python](https://img.shields.io/badge/python-3.10--3.13-blue.svg)](pyproject.toml)
+[![Code style: Ruff](https://img.shields.io/badge/code%20style-ruff-46a2f1.svg)](pyproject.toml)
 [![License: MIT](https://img.shields.io/badge/code%20license-MIT-blue.svg)](LICENSE)
 [![License: CC BY 4.0](https://img.shields.io/badge/docs%20license-CC%20BY%204.0-lightgrey.svg)](LICENSE-CC-BY-4.0.txt)
 
@@ -67,6 +69,9 @@ unsupervised-learning-lab/
 ├── docs/
 ├── data/
 ├── outputs/
+├── CONTRIBUTING.md
+├── SECURITY.md
+├── CHANGELOG.md
 ├── ROADMAP.md
 └── pyproject.toml
 ```
@@ -93,9 +98,16 @@ poetry run jupyter lab
 Run the quality gate (mirrors CI):
 
 ```bash
-poetry run ruff check .      # lint
-poetry run mypy src          # type check
-poetry run pytest            # unit tests
+make check
+```
+
+Individual checks are also available:
+
+```bash
+make lint
+make typecheck
+make test
+make notebook-smoke
 ```
 
 Execute notebooks as a reproducibility smoke test:
@@ -111,6 +123,23 @@ second job covers `unsup_lab.deep`, installing the CPU build of the PyTorch
 version the lock pins - 190 MB rather than the ~2.5 GB of CUDA packages the
 default wheel brings - so the deep-clustering tests run for real instead of
 silently skipping.
+
+## Project standards
+
+The repository includes the maintenance files expected for a professional open
+source or portfolio project:
+
+- [`CONTRIBUTING.md`](CONTRIBUTING.md) - setup, quality gate, contribution rules,
+  and release checklist.
+- [`CHANGELOG.md`](CHANGELOG.md) - release history and unreleased changes.
+- [`SECURITY.md`](SECURITY.md) - private vulnerability reporting guidance.
+- [`SUPPORT.md`](SUPPORT.md) - issue expectations for reproducible modelling
+  questions.
+- [`.github/ISSUE_TEMPLATE`](.github/ISSUE_TEMPLATE) and
+  [`.github/PULL_REQUEST_TEMPLATE.md`](.github/PULL_REQUEST_TEMPLATE.md) -
+  structured GitHub collaboration.
+- [`.github/dependabot.yml`](.github/dependabot.yml) - weekly dependency and
+  GitHub Actions update checks.
 
 ## Production layer
 

@@ -1,0 +1,54 @@
+name: Bug report
+description: Report a reproducible bug in code, notebooks, docs, or automation.
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting a bug. Please keep examples reproducible with public or synthetic data.
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      description: What failed, and what did you expect instead?
+    validations:
+      required: true
+  - type: input
+    id: location
+    attributes:
+      label: Location
+      description: Notebook, module, script, command, or API endpoint.
+      placeholder: notebooks/01_customer_segmentation_clustering.ipynb
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Steps to reproduce
+      description: Include the command, notebook cell, or minimal code example.
+      placeholder: |
+        1. poetry install
+        2. poetry run pytest tests/test_evaluation.py
+        3. See error...
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Error output
+      render: text
+  - type: input
+    id: environment
+    attributes:
+      label: Environment
+      placeholder: Python 3.12, Windows 11, Poetry 2.x
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Checks
+      options:
+        - label: I am not using private data or secrets in this report.
+          required: true
+        - label: I searched existing issues first.
+          required: true

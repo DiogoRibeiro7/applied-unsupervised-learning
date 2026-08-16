@@ -51,28 +51,42 @@ def run_scheduled_report(config_path: str, output_dir: Path) -> Path:
     if config.task == "clustering":
         argv = [
             "train-clustering",
-            "--n", str(config.n_samples),
-            "--k", str(config.n_clusters),
-            "--model-out", str(model_path),
-            "--report-out", str(report_path),
-            "--track-path", str(track_path),
+            "--n",
+            str(config.n_samples),
+            "--k",
+            str(config.n_clusters),
+            "--model-out",
+            str(model_path),
+            "--report-out",
+            str(report_path),
+            "--track-path",
+            str(track_path),
         ]
     elif config.task == "anomaly":
         argv = [
             "detect-anomalies",
-            "--n", str(config.n_samples),
-            "--contamination", str(config.contamination),
-            "--model-out", str(model_path),
-            "--report-out", str(report_path),
-            "--track-path", str(track_path),
+            "--n",
+            str(config.n_samples),
+            "--contamination",
+            str(config.contamination),
+            "--model-out",
+            str(model_path),
+            "--report-out",
+            str(report_path),
+            "--track-path",
+            str(track_path),
         ]
     else:  # topic
         argv = [
             "build-topic-model",
-            "--n-topics", str(config.n_topics),
-            "--model-out", str(model_path),
-            "--report-out", str(report_path),
-            "--track-path", str(track_path),
+            "--n-topics",
+            str(config.n_topics),
+            "--model-out",
+            str(model_path),
+            "--report-out",
+            str(report_path),
+            "--track-path",
+            str(track_path),
         ]
 
     cli_main(seed_argv + argv)
