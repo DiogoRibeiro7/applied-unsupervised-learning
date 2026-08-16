@@ -64,11 +64,11 @@ packages = [{ include = "unsup_lab", from = "src" }]
 # part of the PEP 621 [project] table, and `optional = true` keeps `api` and
 # `deep` out of a default `poetry install`.
 [tool.poetry.group.dev.dependencies]
-pytest = "^9.0.3"
+pytest = "^9.1.1"
 # Pin the linters to the versions the quality gate is actually verified against;
 # a loose constraint let CI drift years behind local dev and fail unnoticed.
 ruff = ">=0.16,<0.17"
-mypy = "^1.10.0"
+mypy = "^2.3.0"
 pandas-stubs = "^2.2.0.240603"
 types-pyyaml = "^6.0"
 
@@ -76,9 +76,9 @@ types-pyyaml = "^6.0"
 optional = true
 
 [tool.poetry.group.api.dependencies]
-fastapi = "^0.111.0"
-uvicorn = "^0.30.0"
-httpx = "^0.27.0"
+fastapi = "^0.141.1"
+uvicorn = "^0.52.2"
+httpx = "^0.28.1"
 
 [tool.poetry.group.deep]
 optional = true
