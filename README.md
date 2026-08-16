@@ -256,9 +256,11 @@ resolves to the most recent version:
 }
 ```
 
-To cite one exact snapshot instead, use that release's own version DOI when
-Zenodo publishes it. The `v0.1.0` snapshot DOI is
-[10.5281/zenodo.21963336](https://doi.org/10.5281/zenodo.21963336).
+To cite one exact snapshot instead, use that release's own version DOI:
+`v0.2.0` is [10.5281/zenodo.21966192](https://doi.org/10.5281/zenodo.21966192)
+and `v0.1.0` is
+[10.5281/zenodo.21963336](https://doi.org/10.5281/zenodo.21963336), published
+under the former name.
 [`CITATION.cff`](CITATION.cff) carries the same metadata and drives GitHub's
 "Cite this repository" button; [`.zenodo.json`](.zenodo.json) describes each
 deposit as it is archived.
