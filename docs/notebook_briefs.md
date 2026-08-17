@@ -37,10 +37,19 @@ well-separated spherical blobs. A second section puts the same five candidates
 on four diagnostic geometries where the assumptions do bite, and each one wins
 somewhere and fails somewhere.
 
+A final section turns the partition into something usable: a depth-3 surrogate
+tree reproduces 99.1% of the clustering as six readable rules, feature
+deviations generate a name per segment, and the boundary members - the narrowest
+margin is 0.40 standardised units - are listed so the segments come with their
+own uncertainty. The generated names recover every planted persona at purity
+1.000, without the labels being used to fit anything.
+
 **Judgement.** Different algorithms encode different cluster shapes; the choice
 is a modelling assumption, and the segments are decision aids, not facts. Where
 methods agree, check whether that is evidence about the methods or merely a
-property of convenient data - here it is the latter.
+property of convenient data - here it is the latter. And an explanation must
+report how much of the model it actually explains: a surrogate that reproduced
+60% of the partition would be a tidy lie about it.
 
 ---
 
