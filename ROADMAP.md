@@ -63,7 +63,8 @@ This roadmap is designed to turn the repository from a notebook project into a m
   - [x] PCA reconstruction error
   - [ ] Autoencoder, optional deep learning extension (the autoencoder in `unsup_lab.deep` is used
         for clustering, not yet for anomaly scoring)
-- [ ] Add threshold selection strategies.
+- [x] Add threshold selection strategies. (`unsup_lab.thresholds`: quantile, robust MAD, knee and
+      Otsu cuts, compared in notebook 03 and scored offline only after the cut is chosen.)
 - [x] Add analyst review tables.
 - [x] Add drift-aware anomaly monitoring. (Cluster/feature drift in notebook 08; not yet tied back
       to the anomaly detectors.)
