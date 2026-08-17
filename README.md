@@ -1,5 +1,6 @@
 # Applied Unsupervised Learning
 
+[![Docs](https://img.shields.io/badge/docs-github.io-blue.svg)](https://diogoribeiro7.github.io/applied-unsupervised-learning/)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21963335.svg)](https://doi.org/10.5281/zenodo.21963335)
 [![CI](https://github.com/DiogoRibeiro7/applied-unsupervised-learning/actions/workflows/ci.yml/badge.svg)](https://github.com/DiogoRibeiro7/applied-unsupervised-learning/actions/workflows/ci.yml)
 [![Python](https://img.shields.io/badge/python-3.10--3.13-blue.svg)](pyproject.toml)
@@ -10,6 +11,8 @@
 A notebook-first applied machine learning project focused on **unsupervised learning**, designed around high-quality Jupyter notebooks with supporting production-style Python code.
 
 The goal is not to show isolated algorithms. The goal is to show that unsupervised learning can be treated as a serious modelling workflow: data generation, representation learning, clustering, anomaly detection, topic discovery, recommender embeddings, model selection, stability analysis, interpretation, and deployment-minded reporting.
+
+📖 **[Read it as a site](https://diogoribeiro7.github.io/applied-unsupervised-learning/)** — every notebook rendered with its outputs, plus the API reference generated from the docstrings.
 
 **Contents** — [Findings](#what-the-notebooks-found) · [Coverage](#what-this-repo-showcases) · [Layout](#repository-layout) · [Getting started](#getting-started) · [Production layer](#production-layer) · [For reviewers](#professional-positioning) · [License](#license) · [Citation](#citation)
 

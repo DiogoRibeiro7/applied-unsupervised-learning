@@ -1,0 +1,99 @@
+site_name: Applied Unsupervised Learning
+site_description: Reproducible workflows for label-free modelling - notebooks, and the tested package behind them.
+site_url: https://diogoribeiro7.github.io/applied-unsupervised-learning/
+repo_url: https://github.com/DiogoRibeiro7/applied-unsupervised-learning
+repo_name: DiogoRibeiro7/applied-unsupervised-learning
+copyright: >-
+  Code MIT, notebooks and prose CC BY 4.0 - see the licence files in the repository.
+
+# Notebooks live in notebooks/ because they are the product, not documentation
+# assets. `make docs-prepare` copies them in before a build; the copy is ignored
+# by git so there is only ever one editable version of each notebook.
+docs_dir: docs
+
+theme:
+  name: material
+  icon:
+    repo: fontawesome/brands/github
+  features:
+    - navigation.instant
+    - navigation.tracking
+    - navigation.sections
+    - navigation.top
+    - content.code.copy
+    - toc.follow
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/weather-night
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to light mode
+
+plugins:
+  - search
+  - mkdocstrings:
+      handlers:
+        python:
+          paths: [src]
+          options:
+            docstring_style: numpy
+            show_root_heading: true
+            show_source: true
+            show_signature_annotations: true
+            separate_signature: true
+            members_order: source
+            filters: ["!^_"]
+  - mkdocs-jupyter:
+      execute: false # notebooks are committed already executed; rendering must not re-run them
+      include_source: true
+      ignore_h1_titles: true
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.highlight:
+      anchor_linenums: true
+
+nav:
+  - Home: index.md
+  - Findings: findings.md
+  - Notebooks:
+      - Overview: notebooks/00_project_overview.ipynb
+      - 01 Customer segmentation: notebooks/01_customer_segmentation_clustering.ipynb
+      - 02 Dimensionality reduction: notebooks/02_dimensionality_reduction_manifold_learning.ipynb
+      - 03 Anomaly detection: notebooks/03_anomaly_detection_sensor_events.ipynb
+      - 04 Topic modelling: notebooks/04_unsupervised_nlp_topic_modeling.ipynb
+      - 05 Recommender embeddings: notebooks/05_recommender_embeddings_matrix_factorization.ipynb
+      - 06 Stability and selection: notebooks/06_model_selection_stability_explainability.ipynb
+      - 07 Consensus clustering: notebooks/07_consensus_clustering.ipynb
+      - 08 Streaming and drift: notebooks/08_streaming_clustering_drift.ipynb
+      - 09 Nonparametric mixtures: notebooks/09_bayesian_nonparametric_mixtures.ipynb
+      - 10 DTW clustering: notebooks/10_time_series_dtw_clustering.ipynb
+      - 11 Graph communities: notebooks/11_graph_community_detection.ipynb
+      - 12 Matrix profile: notebooks/12_matrix_profile_motifs_discords.ipynb
+      - 13 Node embeddings: notebooks/13_graph_node_embeddings_anomaly.ipynb
+      - 14 Unsupervised shapelets: notebooks/14_unsupervised_shapelets.ipynb
+      - 15 Deep clustering: notebooks/15_deep_clustering_autoencoder_dec.ipynb
+      - 99 Lessons learned: notebooks/99_lessons_learned.ipynb
+  - Reading the work:
+      - Notebook briefs: notebook_briefs.md
+      - Decision notes: decision_notes.md
+      - Workflows: workflows.md
+      - Project summary: project_summary.md
+      - Interview talking points: interview_talking_points.md
+  - API reference: reference.md
