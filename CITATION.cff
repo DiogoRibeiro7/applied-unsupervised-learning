@@ -11,8 +11,8 @@ abstract: >-
   data generators, label-free evaluation and stability tooling, and a
   production layer of CLI, model artifacts and a scoring API.
 type: software
-version: "0.2.0"
-date-released: "2026-08-16"
+version: "0.3.0"
+date-released: "2026-08-17"
 doi: 10.5281/zenodo.21963335
 identifiers:
   # The concept DOI: always resolves to the latest archived version.
