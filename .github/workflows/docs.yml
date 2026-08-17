@@ -1,0 +1,74 @@
+name: Docs
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+# Deploy from the Actions artifact rather than a gh-pages branch, so the built
+# site never enters git history and cannot drift from the source it came from.
+permissions:
+  contents: read
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Set up Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+
+      - name: Install Poetry
+        run: pipx install poetry
+
+      - name: Configure Poetry cache
+        uses: actions/cache@v6
+        with:
+          path: ~/.cache/pypoetry
+          key: poetry-docs-${{ runner.os }}-${{ hashFiles('poetry.lock') }}
+
+      # `--only docs` keeps the modelling stack out of the docs build: the API
+      # reference is extracted statically from the source, so nothing here needs
+      # scikit-learn, and nothing needs PyTorch to document `unsup_lab.deep`.
+      - name: Install docs dependencies
+        run: poetry install --only docs --no-interaction --no-root
+
+      - name: Copy notebooks into the docs tree
+        run: make docs-prepare
+
+      # --strict fails the build on a broken link, so documentation rot is a
+      # red check rather than something a reader discovers.
+      - name: Build site
+        run: poetry run mkdocs build --strict
+
+      - name: Upload Pages artifact
+        if: github.ref == 'refs/heads/main'
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: site
+
+  deploy:
+    # Pull requests build the site to prove it still compiles, but only main
+    # publishes it.
+    if: github.ref == 'refs/heads/main'
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

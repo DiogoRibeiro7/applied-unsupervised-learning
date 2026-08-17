@@ -49,16 +49,16 @@ explicit about what unsupervised results can and cannot support.
 
 Regenerate with `python scripts/export_figures.py`.
 
-![Customer segments](../outputs/figures/customer_segments_pca.png)
+![Customer segments](https://raw.githubusercontent.com/DiogoRibeiro7/applied-unsupervised-learning/main/outputs/figures/customer_segments_pca.png)
 
 *Customer segments (KMeans) in a PCA projection.*
 
-![Consensus co-association](../outputs/figures/consensus_coassociation.png)
+![Consensus co-association](https://raw.githubusercontent.com/DiogoRibeiro7/applied-unsupervised-learning/main/outputs/figures/consensus_coassociation.png)
 
 *Co-association matrix from consensus clustering; block structure is the
 evidence that the segments survive resampling.*
 
-![Streaming drift](../outputs/figures/streaming_drift.png)
+![Streaming drift](https://raw.githubusercontent.com/DiogoRibeiro7/applied-unsupervised-learning/main/outputs/figures/streaming_drift.png)
 
 *Streaming drift monitoring: PSI and centroid shift spike when an injected
 regime change arrives.*
@@ -70,5 +70,5 @@ regime change arrives.*
 - [`decision_notes.md`](decision_notes.md) - modelling tradeoffs and why.
 - [`interview_talking_points.md`](interview_talking_points.md) - discussion prompts.
 - [`cv_bullets.md`](cv_bullets.md) - CV bullet points.
-- [`../notebooks/99_lessons_learned.ipynb`](../notebooks/99_lessons_learned.ipynb) - capstone synthesis.
-- [`../ROADMAP.md`](../ROADMAP.md) - the wider roadmap and progress.
+- [`notebooks/99_lessons_learned.ipynb`](https://github.com/DiogoRibeiro7/applied-unsupervised-learning/blob/main/notebooks/99_lessons_learned.ipynb) - capstone synthesis.
+- [`ROADMAP.md`](https://github.com/DiogoRibeiro7/applied-unsupervised-learning/blob/main/ROADMAP.md) - the wider roadmap and progress.
