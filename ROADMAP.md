@@ -2,6 +2,82 @@
 
 This roadmap is designed to turn the repository from a notebook project into a mature applied unsupervised learning project.
 
+## Delivery order
+
+The phases below are a *catalogue*: they list what could exist, in no particular
+order, and several entries that amount to a single piece of work sit in
+different phases. This section is the *plan* — which of those entries ship
+together, in what sequence, and why.
+
+Nothing here is a new item. Every bullet points back at checkboxes already
+listed below, so there stays exactly one place to tick and no second list to
+drift out of date.
+
+### 1. Explain a cluster, then name it — no new dependencies
+
+Closes the widest gap between what the project claims and what it does: the
+README promises business-facing diagnostics and per-segment actions, while
+notebook 01 profiles clusters with feature means and stops there.
+
+Delivers, together: Phase 3 *explainability … surrogate models and local
+examples*, Phase 1 *automatic cluster naming*, Phase 2 *persona cards* and
+*recommended business actions per segment*.
+
+Shape: a `unsup_lab.explain` module. A shallow decision tree fitted to the
+cluster labels turns a partition into readable rules (`recency < 30 and
+frequency > 20 → segment 2`), alongside representative and boundary members per
+cluster, feeding persona cards in notebook 01. The surrogate's own fidelity to
+the partition is reported, because a rule set that only half-describes the
+clusters is a misleading explanation rather than a simple one.
+
+### 2. Anomaly detection as a system — no new dependencies
+
+Continues directly from threshold selection, and retires the overstatement
+currently annotated in Phase 2: the generator claims missingness, drift and
+device faults, and has none of them.
+
+Delivers, together: Phase 2 *simulate IoT streams with missingness, drift …
+and device faults*, *point / contextual / collective anomalies*, *time-aware
+aggregation* and *analyst-facing anomaly explanations*, plus Phase 5 *seasonal
+anomaly detection*.
+
+Shape: a richer sensor generator with genuine gaps, a slow drift and a fault
+mode; per-anomaly feature attribution so a flagged row comes with the reason it
+was flagged; and a contrast between the three anomaly kinds, which the current
+notebook cannot express because it only produces point anomalies.
+
+### 3. HDBSCAN — no new dependencies
+
+Small, and it lands somewhere useful: notebook 01's diagnostic table has a
+*mixed density* row where DBSCAN scores 0.06, and varying density is precisely
+the failure HDBSCAN exists to fix. It belongs as a sixth column there, not as a
+standalone demonstration.
+
+### 4. Depth for notebook 02
+
+Notebook 02 is the thinnest analysis in the project. Three entries land in it
+together: Phase 1 *PCA from scikit-learn and a small NumPy implementation* and
+*reconstruction error analysis*, plus Phase 3 *sensitivity to the
+dimensionality reduction method*.
+
+### 5. Hidden Markov models — no new dependencies
+
+The largest single build left, and the most research-facing: a Gaussian HMM with
+Baum-Welch is a few hundred lines of NumPy. It is the only method under
+consideration that models a latent *sequence of states* rather than latent
+groups, which nothing else in the project does.
+
+### Deferred, with the reason
+
+- **UMAP** and **BERTopic** need substantial new dependencies (`umap-learn`;
+  sentence-transformers and its transformer stack) against a standing preference
+  for NumPy, pandas, scipy, scikit-learn and matplotlib. Worth revisiting only
+  as a deliberate decision to cover the modern embedding stack.
+- **Privacy-preserving or federated discussion** is prose, and reads as
+  speculation until there is an implementation to discuss.
+- **Cluster transition analysis under drift** waits for item 2, which is where
+  drift becomes a real property of the data rather than an injected step.
+
 ## Phase 0 — Foundation
 
 **Goal:** Make the repository clean, reproducible, and credible.
@@ -32,7 +108,7 @@ This roadmap is designed to turn the repository from a notebook project into a m
   - [x] Gaussian Mixture Models
   - [x] Agglomerative Clustering
   - [x] DBSCAN
-  - [ ] HDBSCAN, optional dependency
+  - [ ] HDBSCAN (native in scikit-learn since 1.3, so no optional dependency is needed after all)
   - [x] Spectral Clustering (on graphs, `unsup_lab.graphs`; not yet in the tabular comparison)
 - [x] Add cluster profiling tables.
 - [ ] Add automatic cluster naming based on feature summaries.
