@@ -21,6 +21,9 @@ identifiers:
     description: Concept DOI for all versions of this software.
   # Version DOIs: each pins one exact archived snapshot.
   - type: doi
+    value: 10.5281/zenodo.21976242
+    description: DOI for version 0.3.0.
+  - type: doi
     value: 10.5281/zenodo.21966192
     description: DOI for version 0.2.0.
   - type: doi
